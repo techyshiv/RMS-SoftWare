@@ -1,0 +1,575 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Stock Record Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Stock Record</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{url_for('start')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{url_for('start')}}">Stock</a></li>
+                        <li class="breadcrumb-item active">Stock Record</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">			       
+            <div class="row">				         
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Data Table with Default Features</h3>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Payment Type</label> 
+                                        <select
+                                            class="form-control select2 select2-danger"
+                                            data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;" name="invoiceType" id="invoiceType">
+                                            <option value="SalesSheet" selected="selected">Sales Sheet</option>
+                                            <option value="Expense">Expense Sheet</option>
+                                            <option value="Consumption">Consumption Sheet</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="radio" checked="checked" name="radiobutton"
+                                            id="radiobutton1"> <label>Select Duration</label> <select
+                                            class="form-control select2 select2-danger"
+                                            data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;" name="duration" id="duration">
+                                            <option value="Today" selected="selected">Today</option>
+                                            <option value="All">All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="radio" checked="checked" name="radiobutton"
+                                            id="radiobutton1"> <label>Party Name</label> <select
+                                            class="form-control select2 select2-danger"
+                                            data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;" name="duration" id="party_name">
+                                            {% for val in data %}
+                                            <option>{{val}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="radio" name="radiobutton" id="radiobutton2">
+                                        <label>From Date:</label> <input type="date" disabled
+                                            class="form-control" style="width: 100%;" name="from"
+                                            id="from">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label>To Date:</label> <input type="date" disabled
+                                            class="form-control" style="width: 100%;" name="to" id="to">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary form-control" type="submit"
+                                            style="margin-top: 30px" id="btnSubmit">Search</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary form-control" type="submit"
+                                            style="margin-top: 30px" id="btn">Refresh</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" id="somedata">
+                                        <button class="btn btn-primary form-control" type="submit"
+                                            style="margin-top: 30px" id="btnsee">See Details</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" id="somedue">
+                                        <button class="btn btn-primary form-control" type="submit"
+                                            style="margin-top: 30px" id="btndue">Clear Due</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>							             
+                    <!-- /.card-header -->                     
+                    <div class="card-body">             
+                        <div  id="tab">
+                            <div id="createfield">
+                                <!-- <input type="text" name="" id="myinput" class="float-right mt-3 p-2" placeholder="Search by invoice no." onkeyup="serachfun()"> -->
+                            </div>
+                            <br/>
+                            <div class="mb-2" id="first_header">
+                                
+                            </div>               
+                            <div class="card-body table-responsive p-3" id="tdata">
+                                
+                            </div>
+                                                         
+                            <!-- /.card-body -->
+                                   <div style="display: none" class="small_loader"
+                                id="small_loader1"></div>    
+                        </div>
+                                   
+                        <!-- /.card -->
+                                   
+                    </div>
+                             
+                    <!--/.col (left) -->
+                             
+                    <!-- right column -->
+                             
+                    <div class="col-md-6">         </div>
+                             
+                    <!--/.col (right) -->
+                           
+                </div>
+                       
+                <!-- /.row -->
+                     
+                <!-- /.container-fluid -->
+            </div>
+               
+    </section>
+
+       
+    <!-- /.content -->
+     
+</div>
+<!-- /.content-wrapper -->
+<!-- Stock Record Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Stock Report Data Show Api -->
+<script>
+	$(document).ready(function () {
+		$("#but").hide();
+		$("#somedata").hide();
+		$("#somedue").hide();
+		$('#radiobutton2').on('change', function () {
+			console.log($("#duration").val());
+			if ($("#duration").val() != "Today") {
+				$("#from").prop('disabled', false);
+				document.getElementById('from').valueAsDate = new Date();
+
+				$("#to").prop('disabled', false);
+				document.getElementById('to').valueAsDate = new Date();
+				$("#duration").prop('disabled', true);
+			}
+		});
+
+		$('#radiobutton1').on('change', function () {
+			$("#duration").prop('disabled', false);
+			$("#duration").val('all');
+			$("#from").prop('disabled', true);
+			$("#from").val('');
+			$("#to").prop('disabled', true);
+			$("#to").val('');
+
+		});
+	});
+</script>
+
+<script>
+    $(document).ready(function(){
+		let count=0;
+        $("#btnSubmit").click(function(){
+            var from = $("#from").val();
+            var to = $("#to").val();
+            var duration = $("#duration").val();
+			var type=$("#invoiceType").val();
+			var party_name = $("#party_name").val();
+			let date = new Date();
+			let day = date.getDate();
+			let month = date.getMonth() + 1;
+			let year = date.getFullYear();
+			let full = year + "-" + month + "-" + day;
+            var details=from+","+to+","+duration+","+full+","+type+","+party_name;
+            $.ajax({
+                url:"/StockDataReport",
+				data:{"From":from,"To":to,"Duration":duration,"FullDate":full,"Type":type,"Party":party_name},
+				type:"POST",
+                success:function(data){
+                    if(data.Type == "SalesSheet" && data.Mess.length>0){
+                        $("#invoiceType").html(`
+                        <select
+                                            class="form-control select2 select2-danger"
+                                            data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;" name="invoiceType" id="invoiceType">
+                                            <option value="SalesSheet" selected="selected">Sales Sheet</option>
+                                        </select>
+                        `);
+						$("#somedata").show();
+                        // console.log(data);
+						$("#tdata").append(`<table class="table" id="example">
+											<thead>
+												<tr>
+													<th>S.No</th>
+													<th>ProductName</th>
+													<th>Price</th>
+													<th>Quantity</th>
+													<th>Ammount</th>											
+												</tr>
+											</thead>
+											<tbody id="tablerow">
+												
+											</tbody> 
+										</table>`)
+						for(let i=0;i<data.Mess.length;i++){
+							$("#tablerow").append(`<tr>
+								<td class = "pl-4">${i+1}</td>
+								<td class = "pl-4">${data.Mess[i]["ProductName"]}</td>
+								<td class = "pl-4">${data.Mess[i]["Price"]}</td>
+								<td class = "pl-4">${data.Mess[i]["Quantity"]}</td>
+								<td class = "pl-4">${data.Mess[i]["Ammount"]}</td>
+							</tr>`);
+						}
+						$("#btnsee").click(function(){
+							alert(`The Other Details of Stock Are:\nTax = ${data.Other[0]["Tax"]}%\nTaxAmmount=${data.Other[0]["Taxamm"]}\nGrandTotal = ${data.Other[0]["GrandTotal"]}\nAmmount Paid = ${data.Other[0]["AmmPaid"]}\nAmmount Due = ${data.Other[0]["AmmDue"]}\nRemaining Pay = ${data.Other[0]["Rem"]}\nThe Ammount You Need To Pay = ${data.Other[0]["Pay"]}`);
+						});
+                        if(data.Other[0]["AmmDue"]){
+                            $("#somedue").show();
+                            $("#btndue").click(function(){
+                                let num = prompt("Enter The ammount to clear due");
+                                if(parseInt(num)<=parseInt(data.Other[0]["AmmDue"])){
+                                    $.ajax({
+                                        url:"/ClearDue",
+                                        type:"POST",
+                                        data:{"party":party_name,"amm":num},
+                                        success:function(res){
+                                            if(res.Message == "0"){
+                                                swal({
+                                                title: "Success!",
+                                                text: "Clear Due Successfully!",
+                                                type: "success"
+                                            }).then(function() {
+                                                window.location = "/StockReport";
+                                            });
+                                            }else{
+                                                swal({
+                                                title: "Success!",
+                                                text: "Still you have to pay!",
+                                                type: "success"
+                                            }).then(function() {
+                                                window.location = "/StockReport";
+                                            });
+                                            }
+                                        },
+                                        error:function(jqXHR, textStatus, errorThrown){
+                                            let err = jqXHR;
+                                            if(err.status == 422){
+                                                swal("Error","Invalid Data","error"); 
+                                            }
+                                            else if(err.status == 500){
+                                                swal("Error","Internal Server Error","error");
+                                            } 
+                                        }
+
+                                    })
+                                }else{
+                                    alert("You write wrong ammount");
+                                }
+                            });
+                        }
+						
+					}
+					else if(data.Type == "Expense" && data.Mess.length>0){
+                        $("#invoiceType").html(`
+                        <select
+                                            class="form-control select2 select2-danger"
+                                            data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;" name="invoiceType" id="invoiceType">
+                                            <option value="Expense">Expense Sheet</option>
+                                        </select>
+                        `);
+						$("#tdata").append(`<table class="table" id="example">
+											<thead>
+												<tr>
+													<th>S.No</th>
+													<th>Expense</th>
+													<th>ExpensePrice</th>
+													<th>Description</th>
+													<th>Date</th>												
+												</tr>
+											</thead>
+											<tbody id="tablerow">
+												
+											</tbody> 
+										</table>`);
+						for(let i=0;i<data.Mess.length;i++){
+							$("#tablerow").append(`
+							<tr>
+								<td class = "pl-4">${i+1}</td>	
+								<td class = "pl-4">${data.Mess[i]["Expense_Name"]}</td>	
+								<td class = "pl-4">${data.Mess[i]["Expense_Price"]}</td>	
+								<td class = "pl-4">${data.Mess[i]["Expense_Description"]}</td>	
+								<td class = "pl-4">${data.Mess[i]["Date"]}</td>	
+							</tr>
+							`)
+						}
+					}
+					else{
+                        $("#invoiceType").html(`
+                        <select
+                                            class="form-control select2 select2-danger"
+                                            data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;" name="invoiceType" id="invoiceType">
+                                            <option value="Consumption">Consumption Sheet</option>
+                                        </select>
+                        `);
+						$("#tdata").append(`<table class="table" id="example">
+							<thead>
+								<tr>
+                                    <th>S.No</th>
+									<th>Product Name</th>
+									<th>Use Quantity</th>
+									<th>Remaining</th>												
+								</tr>
+							</thead>
+							<tbody id="tablerow">
+								
+							</tbody> 
+						</table>`);
+						for(let i=0;i<data.con.length;i++){
+							$("#tablerow").append(`
+							<tr>
+                                <td class = "pl-4">${i+1}</td>
+								<td class = "pl-4">${data.con[i]["ProductName"]}</td>	
+								<td class = "pl-4">${data.con[i]["UseQuantity"]}</td>	
+								<td class = "pl-4">${data.con[i]["Remaining"]}</td>		
+							</tr>
+							`)
+						}
+					}
+					$("#example").dataTable({
+                            dom : 'Blfrtip',
+                            buttons:[
+                                {
+                                    extend : 'copy',
+                                    title : `${type}_Report`,
+                                    filename : `${type}_Report`
+                                },
+                                {
+                                    extend : 'excel',
+                                    title : `${type}_Report`,
+                                    filename : `${type}_Report`
+                                },
+                                {
+                                    extend : 'csvHtml5',
+                                    title : `${type}_Report`,
+                                    filename : `${type}_Report`
+                                },
+                                {
+                                    extend : 'pdfHtml5',
+                                    title : `${type}_Report`,
+                                    filename : `${type}_Report`
+                                }
+
+                            ]
+                        });
+                },
+				error:function(error){
+					console.log(error);
+				}
+            });
+        });
+    });
+</script>
+<script>
+	$(document).ready(function(){
+		$("#btn").click(function(){
+			window.open("/StockReport", "_self");
+		});
+	});
+</script>
+<!-- Ends -->
+
+<!-- When Update Button is Clicked -->
+<script>
+    $(document).ready(function () {
+        $("#update").click(function () {
+            let party_name = document.getElementById("party_name").value;
+            let party_date = document.getElementById("party_date").value;
+            let party_email = document.getElementById("party_email").value;
+            let party_address = document.getElementById("party_address").value;
+            let party_number = document.getElementById("party_number").value;
+            let party_gstin = document.getElementById("party_gstin").value;
+            var mob = /^[1-9]{1}[0-9]{9}$/;
+            var email = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if(party_name.length<3){
+                swal("Error!", "Name Length Must be greter than or equal to 3", "error");
+                return false;
+            }
+            if(party_email != "" && email.test(party_email) == false){
+                swal("Error!", "Please Enter Valid Email Address\nEg:(abc@gmail.com", "error");
+                return false;
+            }
+            if(mob.test(party_number) == false){
+                swal("Error!", "Please Enter Valid Mobile Number", "error");
+                return false;
+            }
+            $.ajax({
+                url: "/Edit_Add_Party_data",
+                data: { "name": party_name, "date": party_date, "email": party_email, "address": party_address, "number": party_number, "gstin": party_gstin,"id":$("#proid").val() },
+                type: "POST",
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Party Data Updated Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/Party_Details";
+                    });
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Data is Invalid","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            });
+        });
+    });
+</script>
+<!-- Ends -->
+{% endblock %}

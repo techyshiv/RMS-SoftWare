@@ -1,0 +1,392 @@
+<!-- Main Sidebar Content Start -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #222d32;">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link">
+        <img src="{{url_for('static',filename = 'img/company.png')}}" alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .5;width: 3.8rem;">
+        <span class="brand-text font-weight-light">Skyevo Educational</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{url_for('static',filename = 'img/food_version2.png')}}" class="img-circle elevation-2"
+                    alt="Skyevo Image" style="width: 3.5rem;">
+            </div>
+            <div class="info">
+                
+            </div>
+        </div>
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline" id="search_dashboard">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" onkeyup="myFunction()" type="search" id="myInput"
+                    placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw" id="search_elem"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <!-- Link Navbar -->
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" id="myUL" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <li class="nav-item">
+                    <a href="/" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" id="dash_v1">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Dashboard v1</p>
+                            </a>
+                            <a href="/index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Refresh</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Dashboard Section Start -->
+        
+                <!-- Customer Management Section Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>
+                            Cus Management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/area" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Area</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/executive" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Executive</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/exedetails" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Executive Details</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/customer" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Customer</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/cusdetails" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Customer Details</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/record" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Records</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Customer Management Section Start -->
+        
+                <!-- Product Management Section Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fab fa-product-hunt"></i>
+                        <p>
+                            Pro Management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/product" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Product</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/product_details" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Product Details</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Product Management Section Ends -->
+        
+                <!-- Stock Section Start -->
+                {% if checkexe == "Yes" %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-item fas fa-dolly-flatbed"></i>
+                        <p class="ml-2">
+                            Stock Management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/StockParty" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Party
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Party_Details" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Party Details
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/AddStock" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Stock
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/AddIngredients" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Ingredients
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Expense" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Expense Details
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/StockReport" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Stock Record
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                <!-- Stock Section Ends -->
+        
+                <!-- Invoice Section Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                        <p>
+                            Invoice
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/Invoice" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Create Invoice
+                                </p>
+                            </a>
+                            <a href="/ViewInvoice" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    View Invoice
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Invoice Section Ends -->
+        
+                <!-- Payment Report Section Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fab fa-cc-amazon-pay"></i>
+                        <!-- <i class="nav-icon fas fa-file-invoice-dollar"></i> -->
+                        <p>
+                            Payment Report
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/Daybook" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Daybook
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Payment Report Section Ends -->
+        
+                <!-- Home delievery Section Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-hamburger"></i>
+                        <!-- <i class="nav-icon fab fa-cc-amazon-pay"></i> -->
+                        <!-- <i class="nav-icon fas fa-file-invoice-dollar"></i> -->
+                        <p>
+                            Home Delievery
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/ViewDelivery" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    View Order Details
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Home delievery Section Ends -->
+        
+                <!-- Mail Delievery System Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-envelope"></i>
+                        <!-- <i class="nav-icon fab fa-cc-amazon-pay"></i> -->
+                        <!-- <i class="nav-icon fas fa-file-invoice-dollar"></i> -->
+                        <p>
+                            Mail System
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/Notice" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Template
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/NoticeDetails" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Viem Template
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Compose" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Compose
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/ViewCompose" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    View Compose
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Mail Delievery System Ends -->
+        
+                <!-- Most Frequent Section Start -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-wave-square"></i>
+                        <!-- <i class="nav-icon fas fa-file-invoice-dollar"></i> -->
+                        <p>
+                            Most Frequent
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/frequent_customer" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Frequent Customer
+                                </p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a href="/frequent_product" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Frequent Product
+                                </p>
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+                <!-- Most Frequent Section Ends -->
+        
+                <!-- Assign Credientials Start -->
+                {% if checkexe == "Yes" %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-key"></i>
+                        <!-- <i class="nav-icon fab fa-cc-amazon-pay"></i> -->
+                        <!-- <i class="nav-icon fas fa-file-invoice-dollar"></i> -->
+                        <p>
+                            Assign Credientials
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/crediential" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Add Executive
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                <!-- Assign Credientials Ends -->
+        
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<!-- Main Sidebar Content Ends -->
+

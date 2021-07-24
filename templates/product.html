@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Product Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add Prodcut Type</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Price Management/Product</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Product <small></small></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <!-- When View Button is Click -->
+                        {% if data %}
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Name</label>
+                                <input type="text" name="product" value="{{data['ProductName']}}" class="form-control" id="proname"
+                                    placeholder="Enter product name" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Code</label>
+                                <input type="text" name="code" value="{{data['ProductCode']}}" class="form-control" id="procode"
+                                    placeholder="Enter product code with : seperated eg:(pizza:po1)" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Price</label>
+                                <input type="text" name="price" value="{{data['ProductPrice']}}" class="form-control" id="proprice"
+                                    placeholder="Enter product price" disabled>
+                            </div>
+
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <a href="/product_details" class="btn btn-primary">Back</a>
+                        </div>
+                        <!-- Ends -->
+
+                        <!-- When Edit Button is Click -->
+                        {% elif edit %}
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Name</label>
+                                <input type="text" name="product" value="{{edit['ProductName']}}" class="form-control" id="proname"
+                                    placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Code</label>
+                                <input type="text" name="code" value="{{edit['ProductCode']}}" class="form-control" id="procode"
+                                    placeholder="Enter product code with : seperated eg:(pizza:po1)">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Price</label>
+                                <input type="text" name="price" value="{{edit['ProductPrice']}}" class="form-control" id="proprice"
+                                    placeholder="Enter product price">
+                            </div>
+
+
+                        </div>
+                        <!-- /.card-body -->
+                        <input type="hidden" value="{{edit['ProductId']}}" id="proid">
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" id="btnupdate">Update</button>
+                        </div>
+                        <!-- Ends -->
+                        {% else %}
+                        <!-- Normal Page is Appear -->
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Name</label>
+                                <input type="text" name="product" class="form-control" id="proname"
+                                    placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Code</label>
+                                <input type="text" name="code" class="form-control" id="procode"
+                                    placeholder="Enter product code with : seperated eg:(pizza:po1)">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Prodcut Price</label>
+                                <input type="text" name="price" class="form-control" id="proprice"
+                                    placeholder="Enter product price">
+                            </div>
+
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" id="btnsubmit">Add</button>
+                        </div>
+                        <!-- Ends -->
+                        {% endif %}
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Product Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Product Add Api -->
+<script>
+    $(document).ready(function () {
+        $("#btnsubmit").click(function () {
+            let proname = $('#proname').val();
+            let procode = $("#procode").val();
+            let proprice = $("#proprice").val();
+            if (proname == "") {
+                swal("Error!", "Product Name is Compulsory!", "error");
+                return false;
+            }
+            if (procode == "") {
+                swal("Error!", "Product Code is Compulsory!", "error");
+                return false;
+            }
+            if (proprice == "") {
+                swal("Error!", "Product Price is Compulsory!", "error");
+                return false;
+            }
+            $.ajax({
+                url: "/AddProduct",
+                type: "POST",
+                data: {
+                    "proname": proname,
+                    "procode": procode,
+                    "proprice": proprice
+                },
+                success: function (res) {
+                    swal({
+                        title: "Success!",
+                        text: "Product Data Added Successfully!",
+                        type: "success"
+                    }).then(function () {
+                        window.location = "/product";
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let err = jqXHR;
+                    if (err.status == 422) {
+                        swal("Error", "Data is Not Valid", "error");
+                    }
+                    else if (err.status == 500) {
+                        swal("Error", "Internal Server Error", "error");
+                    }
+                }
+            })
+        });
+    });
+</script>
+
+<!-- When Update Buttin is click -->
+<script>
+    $(document).ready(function () {
+        $("#btnupdate").click(function () {
+            let proname = $('#proname').val();
+            let procode = $("#procode").val();
+            let proprice = $("#proprice").val();
+            if (proname == "") {
+                swal("Error!", "Product Name is Compulsory!", "error");
+                return false;
+            }
+            if (procode == "") {
+                swal("Error!", "Product Code is Compulsory!", "error");
+                return false;
+            }
+            if (proprice == "") {
+                swal("Error!", "Product Price is Compulsory!", "error");
+                return false;
+            }
+            $.ajax({
+                url:"/Edit_Add_Product_data",
+                type:"POST",
+                data:{
+                    "proname": proname,
+                    "procode": procode,
+                    "proprice": proprice,
+                    "id":$("#proid").val()
+                },
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Product Data Updated Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/product_details";
+                    });
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Data is Invalid","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+
+<!-- Ends -->
+
+{% endblock %}

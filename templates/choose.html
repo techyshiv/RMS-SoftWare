@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Login Page Css -->
+<style>
+    hr.hr-text {
+        position: relative;
+        border: none;
+        height: 1px;
+        background: #999;
+    }
+
+    .hr-text {
+        margin-top: 40px;
+    }
+
+    hr.hr-text::before {
+        content: attr(data-content);
+        display: inline-block;
+        background: #fff;
+        font-weight: bold;
+        font-size: 0.85rem;
+        color: #999;
+        border-radius: 30rem;
+        padding: 0.2rem 2rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<!-- Login Page Css Ends-->
+
+<!-- include sidebar -->
+{% include "sidebar.html" %}
+<!-- include sidebar Ends -->
+
+<!-- Login Page Start -->
+<div class="container mb-5">
+    <div class="card mx-auto mt-5 pb-3 shadow rounded" style="width: 25rem;">
+        <div class="card-header">
+            <h3 class="text-center">Login Credientials</h3>
+            <!-- <h4 class="card-title" style="margin-left: 7.5rem;">Food O Mystery</h4> -->
+        </div>
+        <div class="card-body">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="admin" value="admin" id="admin" required
+                    autocomplete="off">
+                <label class="form-check-label" for="admin">
+                    Sign in with Admin
+                </label>
+            </div>
+            <div class="form-group mt-2">
+                <input type="number" class="form-control" id="access" placeholder="Write Access Code">
+            </div>
+            <button class="btn btn-primary" id="adminbtn">Click here</button>
+
+            <!-- Or Seperator -->
+            <hr class="hr-text text-center" data-content="Or">
+            <!-- Create button -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="exe" value="exe" id="exe">
+                <label class="form-check-label" for="exe">
+                    Sign in with Executive
+                </label>
+            </div>
+            <div class="form-group mt-2">
+                <input type="email" class="form-control mb-2" id="email" placeholder="Write Executive Email" required
+                    autocomplete="off">
+                <input type="password" class="form-control" id="pass" placeholder="Write Executive Password" required
+                    autocomplete="off">
+            </div>
+            <button class="btn btn-primary" id="exebtn">Click here</button>
+            <!-- Form Ends -->
+        </div>
+    </div>
+</div>
+<!-- Login Page End -->
+
+<!-- Add Footer -->
+{% include "footer.html" %}
+<!-- End Footer -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Hide until Login -->
+<script>
+    $(document).ready(function () {
+        $(".nav-item").hide();
+        $("#search_dashboard").html(`
+        <div class="form-inline">
+            <div class="input-group">
+                <input class="form-control form-control-sidebar"
+                    placeholder="Login Required">
+            </div>
+        </div>
+        `);
+    });
+</script>
+<!-- Hide until Login Ends-->
+
+<!-- Checkbox Condition With Sign-in With Admin or Executive -->
+<script>
+    $(document).ready(function () {
+        $("#adminbtn").hide();
+        $("#exebtn").hide();
+        $("#email").hide();
+        $("#pass").hide();
+        $("#access").hide();
+
+        
+        $('#admin').on('change',function(){
+            document.getElementById("exe").checked = false;
+            var isChecked = $("#admin").is(":checked");
+            if(isChecked){
+                $("#access").show();
+                $("#adminbtn").show();
+                $("#exebtn").hide();
+                $("#email").hide();
+                $("#pass").hide();
+
+                // <----------------- For Admin ------------------------->
+                $('#adminbtn').click(function(){
+                    let access = $("#access").val();
+                    if(access == ""){
+                        swal("Alert!!","Access Code Can't be Empty!","error");
+                        return false;
+                    }
+                    $.ajax({
+                        url:"/SignAsAdmin",
+                        type:"POST",
+                        data:{"access":access},
+                        success:function(res){
+                            swal({
+                                title: "Success!",
+                                text: "Redirect to Admin Login!",
+                                type: "success"
+                            }).then(function() {
+                                window.location = "/home";
+                            });
+                            },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            let err = jqXHR;
+                            if(err.status == 422){
+                                swal("Error","Data is Invalid","error"); 
+                            }
+                            else if(err.status == 500){
+                                swal("Error","Internal Server Error","error");
+                            } 
+                        }
+                    })
+                });
+                // <---------------------------------- ends ------------------------>
+
+               
+
+            }else{
+                $("#access").hide();
+                $("#adminbtn").hide();
+            }
+        });
+        $('#exe').on('change',function(){
+            var isChecked = $("#exe").is(":checked");
+            if(isChecked){
+                document.getElementById("admin").checked = false;
+                $("#exebtn").show();
+                $("#email").show();
+                $("#pass").show();
+                $("#adminbtn").hide();
+                $("#access").hide();
+
+                 // <-------------------- For Executive -------------------------->
+                 $('#exebtn').click(function(){
+                    let email = $("#email").val();
+                    let pass = $("#pass").val();
+                    if(email == "" && pass == ""){
+                        swal("Alert!!","fields Can't be Empty!","error");
+                        return false;
+                    }
+                    $.ajax({
+                        url:"/SignAsExecutive",
+                        type:"POST",
+                        data:{"email":email,"pass":pass},
+                        success:function(res){
+                            swal({
+                                title: "Success!",
+                                text: "Redirect to Executive Dashboard!",
+                                type: "success"
+                            }).then(function() {
+                                window.location = "/index";
+                            });
+                            },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            let err = jqXHR;
+                            if(err.status == 422){
+                                swal("Error","Data is Invalid","error"); 
+                            }
+                            else if(err.status == 500){
+                                swal("Error","Internal Server Error","error");
+                            } 
+                        }
+                    })
+                });
+                // <--------------------------Ends---------------------------->
+            }else{
+                $("#exebtn").hide();
+                $("#email").hide();
+                $("#pass").hide();
+            }
+        });
+    });
+</script>
+<!-- Ends -->
+
+
+
+
+{% endblock %}

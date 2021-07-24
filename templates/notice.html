@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Notice Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add Notice Template</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Add Notice</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row container">
+
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header bg-primary">
+                            <h3 class="card-title">Add Notice</h3>
+                            <div class="container">
+                            </div>
+                        </div>
+                        {% if data %}
+                            <div class="form-group container">
+                                <label for="name">Notice Name</label>
+                                <input class="form-control" name="Notice" id="name" placeholder="Notice Name"
+                                    value="{{name}}" autocomplete="off" disabled>
+                            </div>
+
+                            <div class="form-group container">
+                                <label for="name">Subject</label>
+                                <input class="form-control" name="Sub" id="subject" placeholder="Subject" value="{{sub}}" autocomplete="off" disabled>
+                            </div>
+
+                            <div class="form-group container">
+                                <label for="name">Body</label>
+                                <textarea id="compose-textarea" name="mess" class="form-control"
+                                    style="height: 300px" autocomplete="off" disabled>{{mess}}</textarea>
+                            </div>
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <a href="/NoticeDetails" class="btn btn-primary">Back</a>
+                                </div>
+                            </div>
+                        <!-- Ends -->
+                        {% elif edit %}
+                        <div class="form-group container">
+                            <label for="name">Notice Name</label>
+                            <input class="form-control" name="Notice" id="name" placeholder="Notice Name"
+                                value="{{name}}" autocomplete="off">
+                        </div>
+
+                        <div class="form-group container">
+                            <label for="name">Subject</label>
+                            <input class="form-control" name="Sub" id="subject" placeholder="Subject" value="{{sub}}" autocomplete="off">
+                        </div>
+
+                        <div class="form-group container">
+                            <label for="name">Body</label>
+                            <textarea id="compose-textarea" name="mess" class="form-control"
+                                style="height: 300px" autocomplete="off">{{mess}}</textarea>
+                        </div>
+                        <input type="hidden" value={{id}} id="notice_id">
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary" id="update">Update</button>
+                            </div>
+                        </div>
+                        <!-- Ends -->
+                        {% else %}
+                        <div class="form-group container">
+                            <label for="name">Notice Name</label>
+                            <input class="form-control" name="Notice" id="name" placeholder="Notice Name"
+                                value="" autocomplete="off">
+                        </div>
+
+                        <div class="form-group container">
+                            <label for="name">Subject</label>
+                            <input class="form-control" name="Sub" id="subject" placeholder="Subject" value="" autocomplete="off">
+                        </div>
+                        
+                        <div class="form-group container">
+                            <label for="name">Body</label>
+                            <textarea id="compose-textarea" name="mess" class="form-control"
+                                style="height: 300px" autocomplete="off"></textarea>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-primary" id="Add">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    {% endif %}
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Notice Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Js for Notice Add -->
+<script>
+    $(document).ready(function () {
+        $("#Add").click(function () {
+            let Notice_Name = $("#name").val();
+            let Subject = $("#subject").val();
+            let mess = $('#compose-textarea').val();
+            if (Notice_Name == "") {
+                swal("Error!","Fill Notice name.","error");
+                return false;
+            }
+            if (Subject == "") {
+                swal("Error!","Fill Subject!","error");
+                return false;
+            }
+            if (mess == "") {
+                swal("Error!","Fill Body!","error");
+                return false;
+            }
+            $.ajax({
+                url:"/AddNotice",
+                type:"POST",
+                data:{"notice":Notice_Name,"sub":Subject,"mess":mess},
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Notice Data Added Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/NoticeDetails";
+                    });
+                    },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Data is Invalid","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+
+<!-- When Update Button is clicked -->
+<script>
+    $(document).ready(function () {
+        $("#update").click(function () {
+            let Notice_Name = $("#name").val();
+            let Subject = $("#subject").val();
+            let mess = $('#compose-textarea').val();
+            let id = $("#notice_id").val();
+            if (Notice_Name == "") {
+                swal("Error!","Fill Notice name.","error");
+                return false;
+            }
+            if (Subject == "") {
+                swal("Error!","Fill Subject!","error");
+                return false;
+            }
+            if (mess == "") {
+                swal("Error!","Fill Body!","error");
+                return false;
+            }
+            $.ajax({
+                url:"/Edit_Add_data_Notice",
+                type:"POST",
+                data:{"notice":Notice_Name,"sub":Subject,"mess":mess,"id":id},
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Notice Data Updated Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/NoticeDetails";
+                    });
+                    },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Data is Invalid","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+<!-- Ends -->
+
+<!-- Ends -->
+
+{% endblock %}

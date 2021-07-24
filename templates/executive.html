@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Executive Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add Executive</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">Add Executive</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"> Executive details <small></small></h3>
+                        </div>
+                        <div>
+                            <div class="">
+                                <span id="mess"></span>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <!-- if Update Button Click then this view appear -->
+                        {% if edit %}
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="area">Area Name</label>
+                                <select class="form-control select2 select2-danger"
+                                    data-dropdown-css-class="select2-danger" style="width: 100%;" name="Executive"
+                                    id="area">
+                                    <option selected="selected">{{edit['AreaName']}}</option>
+                                    {% for val in area %}
+                                       <option>{{val["AreaName"]}}</option>
+                                    {% endfor %}
+                                    <option>--None--</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="executive">Executive Name</label>
+                                <input type="text" name="exelabel" class="form-control" placeholder="Executive Name"
+                                    id="executive" value="{{edit['ExecutiveName']}}" required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="exeid">Executive Id</label>
+                                <input type="text" name="idlabel" class="form-control" id="exeid"
+                                    placeholder="Executive Id" value="{{edit['ExecutiveId']}}" required autocomplete="off" disabled>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" name="addlabel" class="form-control" id="address"
+                                    placeholder="Address" value="{{edit['Address']}}" required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number</label>
+                                <input type="number" name="moblabel" class="form-control" id="mobile"
+                                    placeholder="mobile number" value="{{edit['Mobile']}}" onchange="check()" minlength="10" maxlength="10" required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="what">WhatsApp</label>
+                                <input type="number" name="whatlabel" class="form-control" id="what"
+                                    placeholder="Whatsapp number" value="{{edit['WhatsApp']}}" required autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="emaillabel" class="form-control" id="email"
+                                    placeholder="Email" value="{{edit['Email']}}" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" id="btnupdate">Update</button>
+                        </div>
+
+                        <!-- Ends -->
+
+                        {% elif data %}
+                        <!-- View button Click then this Page Appear -->
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="area">Area Name</label>
+                                <select class="form-control select2 select2-danger"
+                                    data-dropdown-css-class="select2-danger" style="width: 100%;" name="Executive"
+                                    id="area" disabled>
+                                    <option selected="selected" disabled>{{data["AreaName"]}}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="executive">Executive Name</label>
+                                <input type="text" name="exelabel" class="form-control" placeholder="Executive Name"
+                                    id="executive" value="{{data['ExecutiveName']}}"  required autocomplete="off" disabled>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="exeid">Executive Id</label>
+                                <input type="text" name="idlabel" class="form-control" id="exeid"
+                                    placeholder="Executive Id" value="{{data['ExecutiveId']}}" required autocomplete="off" disabled>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" name="addlabel" class="form-control" id="address"
+                                    placeholder="Address" value="{{data['Address']}}" required autocomplete="off" disabled>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number</label>
+                                <input type="number" name="moblabel" class="form-control" id="mobile"
+                                    placeholder="mobile number" value="{{data['Mobile']}}" onchange="check()" minlength="10" maxlength="10" required autocomplete="off" disabled>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="what">WhatsApp</label>
+                                <input type="number" name="whatlabel" class="form-control" id="what"
+                                    placeholder="Whatsapp number" value="{{data['WhatsApp']}}" required autocomplete="off" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="emaillabel" class="form-control" id="email"
+                                    placeholder="Email" value="{{data['Email']}}" required autocomplete="off" disabled>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/exedetails" class="btn btn-primary">Back</a>
+                        </div>
+                        <!-- Ends -->
+
+                        {% else %}
+                        <!-- Normal Executive Page Appear -->
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="area">Area Name</label>
+                                <select class="form-control select2 select2-danger"
+                                    data-dropdown-css-class="select2-danger" style="width: 100%;" name="Executive"
+                                    id="area">
+                                    <option selected="selected">Select</option>
+                                    {% for val in data1 %}
+                                       <option>{{val["AreaName"]}}</option>
+                                    {% endfor %}
+                                    <option>--None--</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="executive">Executive Name</label>
+                                <input type="text" name="exelabel" class="form-control" placeholder="Executive Name"
+                                    id="executive"  required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="exeid">Executive Id</label>
+                                <input type="text" name="idlabel" class="form-control" id="exeid"
+                                    placeholder="Executive Id" required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" name="addlabel" class="form-control" id="address"
+                                    placeholder="Address" required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number</label>
+                                <input type="number" name="moblabel" class="form-control" id="mobile"
+                                    placeholder="mobile number" onchange="check()" minlength="10" maxlength="10" required autocomplete="off">
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="what">WhatsApp</label>
+                                <input type="number" name="whatlabel" class="form-control" id="what"
+                                    placeholder="Whatsapp number" required autocomplete="off">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="emaillabel" class="form-control" id="email"
+                                    placeholder="Email" required autocomplete="off">
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" id="btnsubmit">Add</button>
+                        </div>
+                        <!-- Ends -->
+
+                        {% endif %}
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Executive Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Executive Api Start-->
+<script>
+    function check(){
+        let mobile = $("#mobile").val();
+        var phoneno = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
+        $("#what").val(mobile);
+        if (mobile.match(phoneno)) {
+            console.log("Match")
+            }
+        else {
+            swal("Error","Mobile Number is Invalid!!","error");
+            return false;
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#btnsubmit").click(function () {
+            let area = $("#area").val();
+            let exename = $("#executive").val();
+            let exeid = $('#exeid').val();
+            let address = $("#address").val();
+            let what = $("#what").val();
+            let mobile = $('#mobile').val();
+            let email = $("#email").val();
+            var emailtext = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (area == "Select" || area == "--None--") {
+                swal("Error","Area Name Can Not None or Null.","error");
+                return false;
+            }
+            if (executive == "") {
+                swal("Error","Executive Name is Required!!","error");
+                return false;
+            }
+            if (exeid == "") {
+                swal("Error","Executive Id is Compulsory!!","error");
+                return false;
+            }
+            if (email.match(emailtext)){
+                // return true;
+                console.log("Match")
+            }
+            else {
+                swal("Error","Email is Invalid!!","error");
+                return false;
+            }
+            $.ajax({
+                url:"/Add_Executive_data",
+                type:"POST",
+                data:{
+                    "area":area,
+                    "exename":exename,
+                    "exeid":exeid,
+                    "address":address,
+                    "mobile":mobile,
+                    "what":what,
+                    "email":email
+                },
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Executive Data Added Successfully.!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/exedetails";
+                    });
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Id Should Be Unique","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+
+<!-- When Update Button is Click -->
+<script>
+    $(document).ready(function () {
+        $("#btnupdate").click(function () {
+            let area = $("#area").val();
+            let exename = $("#executive").val();
+            let exeid = $('#exeid').val();
+            let address = $("#address").val();
+            let what = $("#what").val();
+            let mobile = $('#mobile').val();
+            let email = $("#email").val();
+            var emailtext = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (area == "Select" || area == "--None--") {
+                swal("Error","Area Name Can Not None or Null.","error");
+                return false;
+            }
+            if (executive == "") {
+                swal("Error","Executive Name is Required!!","error");
+                return false;
+            }
+            if (exeid == "") {
+                swal("Error","Executive Id is Compulsory!!","error");
+                return false;
+            }
+            if (email.match(emailtext)){
+                // return true;
+                console.log("Match")
+            }
+            else {
+                swal("Error","Email is Invalid!!","error");
+                return false;
+            }
+            $.ajax({
+                url:"/Edit_Add_Executive_data",
+                type:"POST",
+                data:{
+                    "area":area,
+                    "exename":exename,
+                    "exeid":exeid,
+                    "address":address,
+                    "mobile":mobile,
+                    "what":what,
+                    "email":email
+                },
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Executive Data Updated Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/exedetails";
+                    });
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Id Should Be Unique","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+<!-- Ends -->
+
+<!-- Executive Api Ends -->
+
+{% endblock %}

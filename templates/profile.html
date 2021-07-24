@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+    .personalPhoto {
+    position: absolute;
+    display: inline-block;
+    width: 270px;
+    height: 270px;
+    margin: 2em 5em 5em 2em;
+    border: 8px solid #4361bb;;
+    background-color: white;
+    left: 0;
+    overflow: hidden;
+}
+#frame {
+    position: absolute;
+    margin: 5px 10px 0px -102px;
+    height: 200px;
+    width: 200px;
+}
+img, svg {
+    vertical-align: middle;
+}
+.upload-btn-wrapper {
+    position: absolute;
+    margin: 210px 0px 0px -50px;
+    overflow: hidden;
+    display: inline-block;
+}
+.btn1 {
+    border: 2px solid #fff;
+    color: white;
+    background-color: #4361bb;
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.upload-btn-wrapper input[type="file"] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}  
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Profile Page Start -->
+<!-- Content Wrapper. Contains page content -->
+
+<!-- /.content-wrapper -->
+<!-- Profile Page Ends -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-8">
+                    <h1 class="m-0 text-dark">Profile</h1>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" id="home">Home</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- profile -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 text-center">
+                <div class="personalPhoto">
+                    <form action="">
+                    <img id="frame" src="">
+                      <div class="upload-btn-wrapper">
+                          <button class="btn1">UPLOAD</button>
+                         <input type="file" id="myfileinput" onchange="preview()">
+                    </div>	
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">First Name</label>
+                        <input type="text" value="{{data['FirstName']}}" class="form-control" id="fname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Last Name</label>
+                        <input type="text" value="{{data['LastName']}}" class="form-control" id="lname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">E-mail id</label>
+                        <input type="email" value="{{data['EmailId']}}" class="form-control" id="email" placeholder="">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">Gender</label>
+                        <input type="text" value="{{data['Gender']}}" class="form-control" placeholder="" id="gender">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">Password</label>
+                        <input type="password" value="{{data['Password']}}" class="form-control" placeholder="" id="pass">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">Confirm Password</label>
+                        <input type="password" value="{{data['ConfirmPassword']}}" class="form-control"  placeholder="" id="cpass">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCity" class="form-label">Organization Name</label>
+                        <input type="text" value="{{data['OrganizationName']}}" class="form-control" id="oname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">GSTIN</label>
+                        <input type="text" value="{{data['GSTIN']}}" class="form-control"  placeholder="" id="gstin">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">State</label>
+                        <input type="text" value="{{data['State']}}" class="form-control"  placeholder="" id="state">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">District</label>
+                        <input type="text" value="{{data['District']}}" class="form-control"  placeholder="" id="district">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">PAN Number</label>
+                        <input type="text" value="{{data['PANNumber']}}" class="form-control"  placeholder="" id="pan">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">Mobile Number</label>
+                        <input type="text" value="{{data['Mobile']}}" class="form-control"  placeholder="" id="mobile">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="comment">Registered Address</label>
+                        <textarea class="form-control" id="address" rows="6" id="comment">{{data['Registered_Address']}}</textarea>
+                    </div>
+                    
+
+                    <div class="col-12">
+                        
+                    </div>
+                    <div class="col-12 mt-3" style=" margin-bottom: 7rem;">
+                        <button type="submit" id="update" class="btn btn-primary float-right" style="width: 15rem;">UPDATE</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Profile Picture Uploader -->
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            console.log(input/files[0]);            
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+            reader.readAsDataURL(input.files[0]);
+            console.log(reader.result);
+            
+        }
+    }
+    
+    
+function preview() {
+    // var reader = new FileReader();
+    // reader.addEventListener('load',()=>{
+    //     console.log(reader.result);        
+    // });
+    // reader.readAsDataURL(this.files[0]);
+    frame.src=URL.createObjectURL(event.target.files[0]);    
+}
+</script>
+<script>
+    document.querySelector("#myfileinput").addEventListener("change",function(){
+        console.log(this.files);
+        const reader = new FileReader();
+        reader.addEventListener('load',()=>{
+            localStorage.setItem('recent-image',reader.result);
+        });
+        reader.readAsDataURL(this.files[0]);
+    });
+</script>
+
+<!-- Ends -->
+
+<!-- Profile Api -->
+<script>
+$(document).ready(function(){
+    const recentImageDataurl = localStorage.getItem('recent-image');
+            console.log(recentImageDataurl);            
+            if(recentImageDataurl){
+                document.querySelector("#frame").setAttribute('src',recentImageDataurl);
+            }else{
+            }
+    $("#update").click(function(){
+        let fname = $('#fname').val();
+        let lname = $('#lname').val();
+        let email = $('#email').val();
+        let passw = $('#passw').val();
+        let cpass = $('#cpass').val();
+        let mobile = $('#mobile').val();
+        let oname = $('#oname').val();
+        let gstin = $('#gstin').val();
+        let state = $('#state').val();
+        let address = $('#address').val();
+        let pan = $('#pan').val();
+        let district = $('#district').val();
+        let gender = $("#gender").val();
+        let imgsrc = $('#frame').attr('src');
+        $.ajax({
+            url:"/Update_Profile",
+            data:{
+                "fname":fname,
+                "lname":lname,
+                "email":email,
+                "pass":passw,
+                "cpass":cpass,
+                "mobile":mobile,
+                "pan":pan,
+                "state":state,
+                "district":district,
+                "gender":gender,
+                "gstin":gstin,
+                "address":address,
+                "imgsrc":imgsrc,
+                "oname":oname
+            },
+            type:"POST",
+            success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Profile Data Updated Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/Profile";
+                    });
+                },
+            error:function(jqXHR, textStatus, errorThrown){
+                let err = jqXHR;
+                if(err.status == 422){
+                    swal("Error","Data is Invalid!","error"); 
+                }
+                else if(err.status == 500){
+                    swal("Error","Internal Server Error","error");
+                } 
+            }
+        })
+    });
+});
+</script>
+<!-- Ends -->
+
+{% endblock %}

@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- NoticeDetails Page Start -->
+<!-- Content Wrapper. Contains page content -->
+
+<!-- /.content-wrapper -->
+<!-- NoticeDetails Page Ends -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>All Notice Details</h1>
+                </div>
+                <div class="col-sm-4"></div>
+                
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">View Notice</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                    data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="display text-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Notice name</th>
+                                        <th>Subject</th>
+                                        <th>Body</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in org_data %}
+                                    <tr>
+                                        <td>{{data.Id}}</td>
+                                        <td>{{data.Notice_Name}}</td>
+                                        <td>{{data.Subject}}</td>
+                                        <td>{{data.Body}}</td>
+                                        <td class="text-right py-0 align-middle">
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{url_for('ViewNotice',id=data.Id)}}" class="btn btn-info viewbtn"><i
+                                                    class="fas fa-eye"></i></a>
+                                                <a href="{{url_for('EditNotice',id=data.Id)}}" class="btn btn-primary updatebtn"><i
+                                                        class="fas fa-edit"></i></a>
+                                                <button type="submit" class="btn btn-danger" onclick="deletebtn(`{{data.Id}}`)"><i
+                                                        class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6"></div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Datatable initialize -->
+<script>
+    $(document).ready(function () {
+        $("#table_id").dataTable({
+            dom: 'Blfrtip',
+            "lengthMenu": [[5,10,15, -1], [5,10,15, "All"]],
+            buttons: [
+                {
+                    extend: 'copy',
+                    title: 'Notice_Details',
+                    filename: 'Notice_Report'
+                },
+                {
+                    extend: 'excel',
+                    title: 'Notice_Details',
+                    filename: 'Notice_Report'
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: 'Notice_Details',
+                    filename: 'Notice_Report'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'Notice_Details',
+                    filename: 'Notice_Report'
+                }
+
+            ]
+        });
+    });
+</script>
+<!-- Datatable initialize Ends-->
+
+<!-- When Delete Button is Click -->
+<script>
+    function deletebtn(id){
+        $.ajax({
+            url:`/DeleteNotice`,
+            data:{"id":id},
+            type:"POST",
+            success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Notice Data Deleted Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/NoticeDetails";
+                    });
+                },
+            error:function(jqXHR, textStatus, errorThrown){
+                let err = jqXHR;
+                if(err.status == 422){
+                    swal("Error","Data is Invalid!!","error"); 
+                }
+                else if(err.status == 500){
+                    swal("Error","Internal Server Error","error");
+                } 
+            }
+        });
+    }
+</script>
+<!-- Ends -->
+
+{% endblock %}

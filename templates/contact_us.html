@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+
+    .personalPhoto {
+        position: absolute;
+        display: inline-block;
+        width: 270px;
+        height: 270px;
+        margin: 2em 5em 5em 2em;
+        border: 8px solid #4361bb;
+        ;
+        background-color: white;
+        left: 0;
+        overflow: hidden;
+    }
+
+    #frame {
+        position: absolute;
+        margin: 5px 10px 0px -102px;
+        height: 200px;
+        width: 200px;
+    }
+
+    img,
+    svg {
+        vertical-align: middle;
+    }
+
+    .upload-btn-wrapper {
+        position: absolute;
+        margin: 210px 0px 0px -50px;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .btn1 {
+        border: 2px solid #fff;
+        color: white;
+        background-color: #4361bb;
+        padding: 2px 10px;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .upload-btn-wrapper input[type="file"] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Contact Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="min-height: 2644px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Contact us</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Contact us</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-body row">
+                <div class="col-5 text-center d-flex align-items-center justify-content-center">
+                    <div class="">
+                        <h2>Admin<strong>LTE</strong></h2>
+                        <p class="lead mb-5">123 Testing Ave, Testtown, 9876 NA<br>
+                            Phone: +1 234 56789012
+                        </p>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group">
+                        <label for="inputName">Name</label>
+                        <input type="text" id="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">E-Mail</label>
+                        <input type="email" id="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSubject">Subject</label>
+                        <input type="text" id="sub" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMessage">Message</label>
+                        <textarea id="mes" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" id="Add" class="btn btn-primary" value="Send message">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Contact Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+
+<!-- Profile Api -->
+<script>
+    $(document).ready(function () {
+        $("#Add").click(function () {
+            let name = $('#name').val();
+            let email = $('#email').val();
+            let sub = $('#sub').val();
+            let mes = $('#mes').val();
+            if(name == ""  && email == "" && sub == "" && mes == ""){
+                swal("Error!","All Fields are Compulsory!!","error");
+                return false;
+            }
+            $.ajax({
+                url: "/AddContact",
+                data: {
+                    "name": name,
+                    "email": email,
+                    "sub": sub,
+                    "mes": mes
+                },
+                type: "POST",
+                success: function (res) {
+                    swal({
+                        title: "Success!",
+                        text: "We Resolve Your Query As soon As Possible!",
+                        type: "success"
+                    }).then(function () {
+                        window.location = "/Contact";
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    let err = jqXHR;
+                    if (err.status == 422) {
+                        swal("Error", "Data is Invalid!", "error");
+                    }
+                    else if (err.status == 500) {
+                        swal("Error", "Internal Server Error", "error");
+                    }
+                }
+            })
+        });
+    });
+</script>
+<!-- Ends -->
+
+{% endblock %}

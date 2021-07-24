@@ -1,0 +1,458 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Record Page Start -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Record</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Customer Management/Record</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="hidden" id="hiddenname">
+                    <div class="card">
+                        <div class="card-header bg-primary">
+                            <h3 class="card-title">View Records</h3>    
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                    data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body mb-5">
+                            <table class="table display text-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>Customer Name</th>
+                                        <th>Customer Id</th>
+                                        <th>Executive Name</th>
+                                        <th>Father Name</th>
+                                        <th>Address</th>
+                                        <th>Phone Number</th>
+                                        <th>WhatsApp Number</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+    
+    
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                    {% for val in cus %}
+                                        <tr>
+                                            <td>{{val['CustomerName']}}</td>
+                                            <td>{{val['CustomerId']}}</td>
+                                            <td>{{val['ExecutiveName']}}</td>
+                                            <td>{{val['FatherName']}}</td>
+                                            <td>{{val['Address']}}</td>
+                                            <td>{{val['Mobile']}}</td>
+                                            <td>{{val['WhatsApp']}}</td>
+                                            <td>{{val['Email']}}</td>
+                                            <td>
+                                                <a data-toggle="modal" data-target="#myModal" class="btn btn-info btnsubmit"><i
+                                                    class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+    
+                            </table>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- The Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <!--          <h4 class="modal-title">Modal Header</h4>-->
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <!--                <h3 class="card-title">Fees Card</h3>-->
+
+
+                                    <div class="container">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <img src="/static/img/company.png" height="auto" width="80%"
+                                                    style="padding: 10px">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p id="cusname"><b>Name</b>:</p>
+                                                <p id="fname"><b>Father Name</b>: </p>
+                                                <p id="add"><b>Address</b>: </p>
+                                                <p id="mob"><b>Phone No.</b>: </p>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p id="what"><b>Whatsapp No.</b>:</p>
+                                                <p id="cusid"><b>Whatsapp No.</b>:</p>
+                                                <p id="em"><b>Email</b>: </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Month</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" id="month">
+                                        <option selected="selected">--Select Month--</option>
+
+                                        <option>January</option>
+                                        <option>February</option>
+                                        <option>March</option>
+                                        <option>April</option>
+                                        <option>May</option>
+                                        <option>June</option>
+                                        <option>July</option>
+                                        <option>August</option>
+                                        <option>September</option>
+                                        <option>October</option>
+                                        <option>November</option>
+                                        <option>December</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button class="btn btn-primary form-control" type="submit"
+                                        style="margin-top: 30px" id="viewbtn">Search</button>
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <!-- jquery validation -->
+
+
+
+                        <!-- /.card-header -->
+                        <h3>Payment Record </h3>
+                        <div class="card-body">
+                            <table id="sTable7" class="table table-bordered table-striped display">
+                                <thead>
+                                    <tr>
+                                        <th>SNo.</th>
+
+                                        <th>Product</th>
+                                        <th>Quanttity</th>
+                                        <th>Price</th>
+                                        <th>Amount</th>
+                                        <th> Mode Of Payment</th>
+                                        <th>Date</th>
+                                        <th>Payment Status</th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody id="viewrow">
+
+                                </tbody>
+
+                            </table>
+                            <div class="mt-3">
+                                <button onclick="myfun('modal-body')" value="" class="btn btn-primary">Download
+                                    Pdf</button>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Record Page Ends -->
+
+{% include "footer.html" %}
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Datatable initialize -->
+<script>
+    $(document).ready(function () {
+        $("#table_id").dataTable({
+            dom: 'Blfrtip',
+            "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+            buttons: [
+                {
+                    extend: 'copy',
+                    title: 'Records_Details',
+                    filename: 'Records_Report'
+                },
+                {
+                    extend: 'excel',
+                    title: 'Records_Details',
+                    filename: 'Records_Report'
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: 'Records_Details',
+                    filename: 'Records_Report'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'Records_Details',
+                    filename: 'Records_Report'
+                }
+
+            ]
+        });
+    });
+</script>
+<!-- Datatable initialize Ends-->
+
+</script>
+<!-- Records Page Api -->
+<script>
+    $('.table tbody').on('click', '.btnsubmit', function () {
+        $("#month").val("");
+        $("#viewrow").empty();
+        var currow = $(this).closest('tr');
+        var col1 = currow.find('td:eq(0)').text();
+        var col2 = currow.find('td:eq(1)').text();
+        var col3 = currow.find('td:eq(2)').text();
+        var col4 = currow.find('td:eq(3)').text();
+        var col5 = currow.find('td:eq(4)').text();
+        var col6 = currow.find('td:eq(5)').text();
+        var col7 = currow.find('td:eq(6)').text();
+        var col8 = currow.find('td:eq(7)').text();
+        var col9 = currow.find('td:eq(8)').text();
+        var result = col1 + '\n' + col2 + '\n' + col3 + '\n' + col4 + '\n' + col5 + '\n' + col6 + '\n' + col7 + '\n' + col8 + '\n' + col9;
+        $('#cusname').html(`Name : ${col1}`);
+        $('#fname').html(`Father Name : ${col4}`);
+        $('#add').html(`Address: ${col5}`);
+        $('#mob').html(`Mobile : ${col6}`);
+        $('#what').html(`WhatsApp : ${col7}`);
+        $('#em').html(`Email : ${col8}`);
+        $('#cusid').html(`Customer Id : ${col2}`);
+        $('#hiddenname').val(col2);
+        // alert(result);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#viewbtn").click(function () {
+            let month = $("#month").val();
+            let cusid = $("#hiddenname").val();
+            // console.log(cname);
+            $.ajax({
+                url: "/RecordView",
+                data: { "month": month, "cusname": cusid },
+                type: "POST",
+                success: function (data) {
+                    console.log(data.Result);
+                    let count = 0;
+                    if (data.Result[0] != "No data found") {
+                        for (let i = 0; i < data.Result.length; i++) {
+                            for (let j = 0; j < data.Result[i]["Product"].length; j++) {
+                                count += 1;
+                                $("#viewrow").append(
+                                    `
+                                <tr>
+                                    <td>${count}</td>
+                                    <td>${data.Result[i]["Product"][j]}</td>
+                                    <td>${data.Result[i]["Quantity"][j]}</td>
+                                    <td>${data.Result[i]["Price"][j]}</td>
+                                    <td>${data.Result[i]["Ammount"][j]}</td>
+                                    <td>${data.Result[i]["PaymentMode"]}</td>
+                                    <td>${data.Result[i]["FullDate"]}</td>
+                                    <td>${data.Result[i]["PaymentStatus"]}</td>
+                                `
+                                )
+                            }
+                        }
+                        $("#month").val("");
+                    } else {
+                        alert("Data Not Found");
+                        $("#month").val("");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    function myfun(paravalue) {
+        var backup = document.body.innerHTML;
+        var divcontent = document.getElementById("modal-body").innerHTML;
+        var opt = {
+            margin: 1,
+            filename: 'record.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 7 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().from(divcontent).set(opt).save();
+    }
+</script>
+<!-- Records Page Api Ends-->
+
+{% endblock %}

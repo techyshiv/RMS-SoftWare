@@ -1,0 +1,614 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+<!-- Include Sidebar -->
+{% include "sidebar.html" %}
+<!-- Sidebar Ends -->
+
+<!-- Include Navbar -->
+{% include "navbar.html" %}
+<!-- Navbar Ends -->
+
+<!-- Customer Page Start -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add Customer</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Customer Management/Add Customer</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Customer<small></small></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                            <!-- When View Button click in the details page then this is appear -->
+                            {% if data %}
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Executive Name</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" name="Executive"
+                                        id="executive" disabled>
+                                        <option selected="selected" disabled>{{data['ExecutiveName']}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer Name</label>
+                                    <input type="text" name="cname" class="form-control" id="cusname"
+                                        placeholder="Customer Name" value="{{data['CustomerName']}}" autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer ID</label>
+                                    <input type="text" name="cusid" class="form-control" id="cusid"
+                                        placeholder="Customer ID" value="{{data['CustomerId']}}" autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Father Name</label>
+                                    <input type="text" name="fname" class="form-control" id="fname"
+                                        placeholder="Father name" value="{{data['FatherName']}}" autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Address</label>
+                                    <input type="text" name="address" class="form-control" id="address"
+                                        placeholder="Address" value="{{data['Address']}}" autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Mobile Number</label>
+                                    <input type="number" name="mobile" onchange="check()" class="form-control" id="mobile"
+                                        placeholder="Mobile Number" value="{{data['Mobile']}}" autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Whatsapp Number</label>
+                                    <input type="number" name="what" class="form-control" id="what"
+                                        placeholder="Whatsapp Number" value="{{data['WhatsApp']}}" onchange="inputchange()" required
+                                        autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email</label>
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email"
+                                        aria-describedby="emailHelp" value="{{data['Email']}}" required autocomplete="off" disabled>
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                        anyone else.</small>
+                                    <div class="valid-feedback">
+                                        <i class="far text-success fa-thumbs-up"></i> OK
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <i class="fas text-danger fa-exclamation-triangle"></i> Some error in Email.
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Start Date</label>
+                                    <input type="date" name="startdate" value="{{data['StartDate']}}" class="form-control" id="dates"
+                                        placeholder="Write in DD-MM-YY format" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Date of Birth</label>
+                                    <input type="date" name="enddate" value="{{data['D.O.B']}}" class="form-control" id="dob"
+                                        placeholder="Write in DD-MM-YY format" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" name="gender"
+                                        id="gender">
+                                        <option selected="selected" disabled>{{data['Gender']}}</option>
+    
+                                    </select>
+                                </div>
+
+
+                                <!-- /.form-group -->
+                            </div>
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <a href="/cusdetails" class="btn btn-primary">Back</a>
+                            </div>
+                            <!-- Ends -->
+                            {% elif edit %}
+                            <!-- When Update Button is click then it is appera -->
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Executive Name</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" name="Executive"
+                                        id="executive">
+                                        <option selected="selected">{{edit['ExecutiveName']}}</option>
+                                        {% for val in exe %}
+                                        <option>{{val["ExecutiveName"]}}</option>
+                                        {% endfor %}
+                                        <option>--None--</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer Name</label>
+                                    <input type="text" name="cname" class="form-control" id="cusname"
+                                        placeholder="Customer Name" value="{{edit['CustomerName']}}" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer ID</label>
+                                    <input type="text" name="cusid" class="form-control" id="cusid"
+                                        placeholder="Customer ID" value="{{edit['CustomerId']}}" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Father Name</label>
+                                    <input type="text" name="fname" class="form-control" id="fname"
+                                        placeholder="Father name" value="{{edit['FatherName']}}" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Address</label>
+                                    <input type="text" name="address" class="form-control" id="address"
+                                        placeholder="Address" value="{{edit['Address']}}" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Mobile Number</label>
+                                    <input type="number" name="mobile" onchange="check()" class="form-control" id="mobile"
+                                        placeholder="Mobile Number" value="{{edit['Mobile']}}" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Whatsapp Number</label>
+                                    <input type="number" name="what" class="form-control" id="what"
+                                        placeholder="Whatsapp Number" value="{{edit['WhatsApp']}}" required
+                                        autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email</label>
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email"
+                                        aria-describedby="emailHelp" value="{{edit['Email']}}" required autocomplete="off">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                        anyone else.</small>
+                                    <div class="valid-feedback">
+                                        <i class="far text-success fa-thumbs-up"></i> OK
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <i class="fas text-danger fa-exclamation-triangle"></i> Some error in Email.
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Start Date</label>
+                                    <input type="date" name="startdate" value="{{edit['StartDate']}}" class="form-control" id="dates"
+                                        placeholder="Write in DD-MM-YY format">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Date of Birth</label>
+                                    <input type="date" name="enddate" value="{{edit['D.O.B']}}" class="form-control" id="dob"
+                                        placeholder="Write in DD-MM-YY format">
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" name="gender"
+                                        id="gender">
+                                        <option selected="selected">{{edit['Gender']}}</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- /.form-group -->
+                            </div>
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" id="btnupdate" class="btn btn-primary">Update</button>
+                            </div>
+
+                            <!-- Ends -->
+                            {% else %}
+                            <!-- Normal Page is appear-->
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Executive Name</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" name="Executive"
+                                        id="executive">
+                                        <option selected="selected">Select</option>
+                                        {% for val in data1 %}
+                                        <option>{{val["ExecutiveName"]}}</option>
+                                        {% endfor %}
+                                        <option>--None--</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer Name</label>
+                                    <input type="text" name="cname" class="form-control" id="cusname"
+                                        placeholder="Customer Name" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Customer ID</label>
+                                    <input type="text" name="cusid" class="form-control" id="cusid"
+                                        placeholder="Customer ID" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Father Name</label>
+                                    <input type="text" name="fname" class="form-control" id="fname"
+                                        placeholder="Father name" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Address</label>
+                                    <input type="text" name="address" class="form-control" id="address"
+                                        placeholder="Address" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Mobile Number</label>
+                                    <input type="number" name="mobile" onchange="check()" class="form-control" id="mobile"
+                                        placeholder="Mobile Number" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Whatsapp Number</label>
+                                    <input type="number" name="what" class="form-control" id="what"
+                                        placeholder="Whatsapp Number" onchange="inputchange()" required
+                                        autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email</label>
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email"
+                                        aria-describedby="emailHelp" required autocomplete="off">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                        anyone else.</small>
+                                    <div class="valid-feedback">
+                                        <i class="far text-success fa-thumbs-up"></i> OK
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <i class="fas text-danger fa-exclamation-triangle"></i> Some error in Email.
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Start Date</label>
+                                    <input type="date" name="startdate" class="form-control" id="dates"
+                                        placeholder="Write in DD-MM-YY format">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Date of Birth</label>
+                                    <input type="date" name="enddate" class="form-control" id="dob"
+                                        placeholder="Write in DD-MM-YY format">
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control select2 select2-danger"
+                                        data-dropdown-css-class="select2-danger" style="width: 100%;" name="gender"
+                                        id="gender">
+                                        <option selected="selected">Select</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+
+
+                                <!-- /.form-group -->
+                            </div>
+
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" id="btnsubmit" class="btn btn-primary">Add</button>
+                            </div>
+                            <!-- Ends -->
+                            {% endif %}
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Customer Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Footer Ends -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Customer Add Data Api -->
+<script>
+    function check(){
+        let mobile = $("#mobile").val();
+        var phoneno = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
+        $("#what").val(mobile);
+        if (mobile.match(phoneno)) {
+            console.log("Match")
+            }
+        else {
+            swal("Error","Mobile Number is Invalid!!","error");
+            return false;
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#btnsubmit").click(function () {
+            let exename=$("#executive").val();
+            let cname=$("#cusname").val();
+            let cusid=$("#cusid").val();
+            let fname=$("#fname").val();
+            let address=$("#address").val();
+            let mobile=$("#mobile").val();
+            let email=$("#email").val();
+            let start=$("#dates").val();
+            let end=$("#dob").val();
+            let gender=$("#gender").val();
+            var emailtext = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (exename == "Select" || exename == "--None--") {
+                swal("Error","Executive Name Can Not None or Null.","error");
+                return false;
+            }
+            if (cname == "") {
+                swal("Error","Customer Name is Required!!","error");
+                return false;
+            }
+            if (cusid == "") {
+                swal("Error","Customer Id is Compulsory!!","error");
+                return false;
+            }
+            if(gender == "Select" || gender == "--None--"){
+                swal("Error","Gender is Required!!","error");
+                return false;
+            }
+            if (email.match(emailtext)){
+                // return true;
+                console.log("Match")
+            }
+            else {
+                swal("Error","Email is Invalid!!","error");
+                return false;
+            }
+            $.ajax({
+                url:"/Add_Customer_data",
+                type:"POST",
+                data:{
+                    "executive":exename,
+                    "cusname":cname,
+                    "cusid":cusid,
+                    "fname":fname,
+                    "address":address,
+                    "mobile":mobile,
+                    "what":$("#what").val(),
+                    "email":email,
+                    "start":start,
+                    "dob":end,
+                    "gender":gender
+                },
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Customer Data Added Successfully.!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/customer";
+                    });
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Id Should Be Unique","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+
+<!-- When Update Button Click -->
+<script>
+    $(document).ready(function () {
+        $("#btnupdate").click(function () {
+            let exename=$("#executive").val();
+            let cname=$("#cusname").val();
+            let cusid=$("#cusid").val();
+            let fname=$("#fname").val();
+            let address=$("#address").val();
+            let mobile=$("#mobile").val();
+            let email=$("#email").val();
+            let start=$("#dates").val();
+            let end=$("#dob").val();
+            let gender=$("#gender").val();
+            var emailtext = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (exename == "Select" || exename == "--None--") {
+                swal("Error","Executive Name Can Not None or Null.","error");
+                return false;
+            }
+            if (cname == "") {
+                swal("Error","Customer Name is Required!!","error");
+                return false;
+            }
+            if (cusid == "") {
+                swal("Error","Customer Id is Compulsory!!","error");
+                return false;
+            }
+            if(gender == "Select" || gender == "--None--"){
+                swal("Error","Gender is Required!!","error");
+                return false;
+            }
+            if (email.match(emailtext)){
+                // return true;
+                console.log("Match")
+            }
+            else {
+                swal("Error","Email is Invalid!!","error");
+                return false;
+            }
+            $.ajax({
+                url:"/Edit_Add_Customer_data",
+                type:"POST",
+                data:{
+                    "executive":exename,
+                    "cusname":cname,
+                    "cusid":cusid,
+                    "fname":fname,
+                    "address":address,
+                    "mobile":mobile,
+                    "what":$("#what").val(),
+                    "email":email,
+                    "start":start,
+                    "dob":end,
+                    "gender":gender
+                },
+                success:function(res){
+                    swal({
+                        title: "Success!",
+                        text: "Customer Data Updated Successfully.!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/cusdetails";
+                    });
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Id Should Be Unique","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+<!-- Ends -->
+
+<!-- Ends -->
+
+{% endblock %}

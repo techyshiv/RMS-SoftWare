@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Start Index Desigining -->
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+<!-- Add Sidebar Content -->
+{% include "sidebar.html" %}
+<!-- End Sidebar Content -->
+
+<!-- Navbar Section Start -->
+{% include 'navbar.html' %}
+<!-- Navbar Section Ends -->
+
+<!-- Main Content Start -->
+{% block middle %} {% include 'section_content.html' %} {% endblock %}
+<!-- Main Content Ends -->
+
+<!-- Footer Start -->
+{% include 'footer.html' %}
+<!-- Footer Ends -->
+
+<!-- Index Part Ends -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Js for Area Chart -->
+<script>
+    $(document).ready(function () {
+        let arrayData = []
+        $.ajax({
+            url: "/ShowChart_MonthWise",
+            type: "GET",
+            success: function (res) {
+                    console.log(res);
+                    for (let i = 0; i < res.Data.length; i++) {
+                        arrayData.push(res.Data[i]);
+                    }
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                        animationEnabled: true,
+                        theme: "light2", // "light1", "light2", "dark1", "dark2"
+                        title: {
+                        text: "Restaurant Revenue by Month"
+                    },
+                    axisY: {
+                        title: "Payment(Rs)"
+                    },
+                    data: [{
+                            type: "column",
+                            showInLegend: true,
+                            legendMarkerColor: "grey",
+                            legendText: "Payment = Month Wise Chart",
+                            
+                            dataPoints:arrayData
+                        }]
+                    });
+                    chart.render();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+        $.ajax({
+            url: "/ShowChart_YearWise",
+            type: "GET",
+            success: function (res) {
+                console.log(res);
+                var chart = new CanvasJS.Chart("chartContainers", {
+            animationEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            title: {
+                text: "Restaurant Revenue by Year"
+            },
+            axisY: {
+                title: "Payment(Rs)"
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                legendMarkerColor: "grey",
+                legendText: "Payment = Month Wise Chart",
+                dataPoints: [
+                    { y: parseInt(res.Data[0].Total), label: res.Data[0].Year },
+                ]
+            }]
+        });
+        chart.render();
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+    });
+</script>
+
+{% endblock %}

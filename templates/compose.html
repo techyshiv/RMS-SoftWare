@@ -1,0 +1,391 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Compose Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Compose</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Compose</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header bg-primary">
+                            <h3 class="card-title">Compose</h3>
+                            <div class="container"></div>
+                        </div>
+                        <!-- /.card-header -->
+                            {% if compose %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Customer</label>
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-control select2 select2-danger"
+                                                data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                id="customerid" name="customerid" disabled>
+                                                <option>{{compose['Customer']}}</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Select Template</label>
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-control select2 select2-danger"
+                                                data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                id="selecttemplate" name="noticeTemplateId" disabled>
+                                                
+                                                <option>{{compose['Template']}}</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label>Subject</label> <input class="form-control" placeholder="Subject:"
+                                        id="subject" name="subject" value="{{compose['Subject']}}" autocomplete="off" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Body</label>
+                                    <textarea id="body" class="form-control" style="height: 300px"
+                                        name="body" autocomplete="off" disabled>{{compose['Body']}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date</label><input class="form-control"
+                                    value="{{compose['FullDate']}}" type="text" autocomplete="off" disabled>
+                                        
+                                </div>
+                                <div class="form-group">
+                                    <label>Time</label> <input class="form-control" placeholder="Sender Password:"
+                                        value="{{compose['Time']}}" type="text" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <a href="/ViewCompose" class="btn btn-primary">Back</a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Customer</label>
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-control select2 select2-danger"
+                                                data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                id="customerid" name="customerid">
+                                                <option>All</option>
+                                                {% for data in cus %}
+                                                <option>{{data.CustomerName}}</option>
+                                                {% endfor %}
+                                                <option disabled>--None--</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Select Template</label>
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-control select2 select2-danger"
+                                                data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                id="selecttemplate" name="noticeTemplateId">
+                                                <option>Select</option>
+                                                {% for data in notice %}
+                                                <option>{{data.Notice_Name}}</option>
+                                                {% endfor %}
+                                                <option disabled>--None--</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label>Subject</label> <input class="form-control" placeholder="Subject:"
+                                        id="subject" name="subject" value="" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>Body</label>
+                                    <textarea id="body" class="form-control" style="height: 300px"
+                                        name="body" autocomplete="off"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sender Email</label><input class="form-control" placeholder="Sender Email:"
+                                        id="email" name="email" value="" type="email" autocomplete="off">
+                                        <span class="form-text text-muted">We'll never share your email with anyone else.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sender Password</label> <input class="form-control" placeholder="Sender Password:"
+                                        id="password" name="password" value="" type="password" autocomplete="off">
+                                        <span class="form-text text-muted">Make sure you allow less secure option on to send emails.</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-primary" id="send">Send</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </form>
+                        <!-- /.card-body -->
+
+
+
+                        <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Compose Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Fill Automatic Sub and Body by select template -->
+<script>
+    $(document).ready(function(){
+        $("#selecttemplate").change(function(){
+            let templateid=$(this).val();
+            console.log(templateid);
+            if(templateid=="Select"){
+                $('#subject').val("");
+				$('#body').val("");
+            }
+            else{
+                $.ajax({
+                    url:"/fetch/notice",
+                    data:{"Id":templateid},
+                    type:"POST",
+                    success:function(data){
+                        $('#subject').val(data.Result.Subject);
+				        $('#body').val(data.Result.Body);
+                    }
+                })
+            }
+        });
+    });
+</script>
+<!-- Ends -->
+
+<!-- Send Email -->
+<script>
+    $(document).ready(function(){
+        $("#send").click(function(){
+            let customer=$("#customerid").val();
+            let template=$("#selecttemplate").val();
+            let email=$("#email").val();
+            let password=$("#password").val();
+            let subject=$("#subject").val();
+            let body=$("#body").val();
+            let emailtext = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if(subject == ""){
+                swal("Alert!","fill the subject!!","error");
+                return false;
+            }
+            if(body==""){
+                swal("Alert!","fill the Body!!","error");
+                return false;
+            }
+            if(email==""){
+                swal("Alert!","fill your email!!","error");
+                return false;
+            }
+            if(!emailtext.test(email)){
+                swal("Alert!","Invalid Email!!","error");
+                return false;     
+            }
+            if(password==""){
+                swal("Alert!","fill your Password!!","error");
+                return false;
+            }
+            var ifConnected = window.navigator.onLine;
+            if(ifConnected){
+                $("#send").text("Sending...");
+                $.ajax({
+                url:"/notice/composenotice",
+                type:"POST",
+                data:{
+                    "cus":customer,
+                    "temp":template,
+                    "sub":subject,
+                    "body":body,
+                    "email":email,
+                    "pass":password
+                },
+                success:function(res){
+                    setTimeout(function(){
+                        swal({
+                        title: "Success!",
+                        text: "Email Send Successfully!",
+                        type: "success"
+                    }).then(function() {
+                        window.location = "/Compose";
+                    }); 
+                    $("#send").text("Send");
+                    },10000)
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Data is Invalid!","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            });
+            }else{
+                swal("Alert!","Internet is Not Connected!!","error");
+                $("#send").text("Send");
+            }
+        });
+    });
+</script>
+<!-- Ends -->
+
+{% endblock %}

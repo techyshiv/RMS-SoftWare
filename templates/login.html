@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Login Page Css -->
+<style>
+    hr.hr-text {
+        position: relative;
+        border: none;
+        height: 1px;
+        background: #999;
+    }
+
+    .hr-text {
+        margin-top: 40px;
+    }
+
+    hr.hr-text::before {
+        content: attr(data-content);
+        display: inline-block;
+        background: #fff;
+        font-weight: bold;
+        font-size: 0.85rem;
+        color: #999;
+        border-radius: 30rem;
+        padding: 0.2rem 2rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<!-- Login Page Css Ends-->
+
+<!-- include sidebar -->
+{% include "sidebar.html" %}
+<!-- include sidebar Ends -->
+
+<!-- Login Page Start -->
+<div class="container mb-5">
+    <div class="card mx-auto mt-5 pb-3 shadow rounded" style="width: 25rem;">
+        <div class="card-header">
+            <a href="/" class="h1" style="margin-left: 7rem;"><b>Admin</b></a>
+            <!-- <h4 class="card-title" style="margin-left: 7.5rem;">Food O Mystery</h4> -->
+        </div>
+        <div class="card-body">
+            <!-- Form Start -->
+            <p class="login-box-msg">Sign in to start your session</p>
+            <div class="input-group mb-3">
+                <input type="email" class="form-control" name="email" placeholder="Email" id="useremail" value="{{email}}" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+                <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> Ok
+                </div>
+                <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-triangle"></i> Some error in email.
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" name="password" minlength="6" maxlength="16"
+                    placeholder="Password" id="userpass" value="{{passw}}" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+                <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> Ok
+                </div>
+                <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-triangle"></i> Some error in Password.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">
+                            Remember Me
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning mt-3 shadow rounded w-100" id="submit">Signin</button>
+            <!-- Or Seperator -->
+            <hr class="hr-text" data-content="Or">
+            <!-- Create button -->
+            
+            
+            <a href="/signup" class="btn btn-sm btn-dark w-100 mt-2">Create Your Own Credientials</a>
+            <p class="mb-1">
+                <a href="/forgot_password">I forgot my password</a>
+            </p>
+            <!-- Form Ends -->
+        </div>
+    </div>
+</div>
+<!-- Login Page End -->
+
+<!-- Add Footer -->
+{% include "footer.html" %}
+<!-- End Footer -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Hide until Login -->
+<script>
+    $(document).ready(function () {
+        $(".nav-item").hide();
+        $("#search_dashboard").html(`
+        <div class="form-inline">
+            <div class="input-group">
+                <input class="form-control form-control-sidebar"
+                    placeholder="Login Required">
+            </div>
+        </div>
+        `);
+    });
+</script>
+<!-- Hide until Login Ends-->
+
+<!-- Login Api  -->
+<script>
+    $(document).ready(function () {
+        if($("#email").val() !=""){
+            document.getElementById("remember").checked = true;
+        }
+        $("#submit").click(function () {
+            let email = $("#useremail").val();
+            let pass = $("#userpass").val();
+            let checkin = $('#remember').val();
+            $.ajax({
+                url:"/login",
+                type:"POST",
+                data:{"email":email,"pass":pass,"check":checkin},
+                success:function(res){
+                    $(".valid-feedback").show();
+                    $(".invalid-feedback").hide();
+                    location.href = "/index";
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    $(".invalid-feedback").show();
+                    // alert(jqXHR.status); <---return Status--->
+                    // alert(textStatus); <--return error ------>
+                    // alert(errorThrown); <--return unautoriged-->
+                }
+            });
+        });
+    });
+</script>
+<!-- Login Api Ends-->
+
+
+
+{% endblock %}

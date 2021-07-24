@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- SignUp Page Css -->
+<style>
+    hr.hr-text {
+    position: relative;
+    border: none;
+    height: 1px;
+    background: #999;
+}
+.hr-text {
+    margin-top: 40px;
+}
+hr.hr-text::before {
+    content: attr(data-content);
+    display: inline-block;
+    background: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #999;
+    border-radius: 30rem;
+    padding: 0.2rem 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</style>
+<!-- SignUp Page Css Ends-->
+
+<!-- include sidebar -->
+{% include "sidebar.html" %}
+<!-- Sidebar Ends -->
+
+<!-- Signup Form Start -->
+<div class="container mb-5">
+    <div class="card mx-auto mt-5 pb-3 shadow rounded" style="width: 25rem;">
+        <div class="card-header">
+            <a href="/" class="h1" style="margin-left: 7rem;"><b>Admin</b></a>
+            <!-- <h4 class="card-title" style="margin-left: 7.5rem;">Food O Mystery</h4> -->
+        </div>
+        <div class="card-body">
+          <!-- Form Start -->
+          <p class="login-box-msg">Create Your Own Credientials</p>
+            <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="Email" id="useremail" required>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                  </div>
+                </div>
+                <div class="valid-feedback">
+                <i class="far text-success fa-thumbs-up"></i> OK
+                </div>
+                <div class="invalid-feedback">
+                <i class="fas text-danger fa-exclamation-triangle"></i> Some error in email.
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" minlength="6" maxlength="16" placeholder="Password" id="userpass" required>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+                <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> OK
+                    </div>
+                    <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-triangle"></i> Some error in Password.
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-warning mt-3 shadow rounded w-100" id="submit">Register</button>
+          
+          <!-- Or Seperator -->
+          <hr class="hr-text" data-content="Or SignUp With?">
+          <!-- Create button -->
+          <p class="text-center">Already have an account? <a href="/">Sign in <svg class="svg-inline--fa fa-caret-right fa-w-6" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" data-fa-i2svg=""><path fill="currentColor" d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"></path></svg><!-- <i class="fas fa-caret-right"></i> --></a></p>
+                 
+          <!-- Form Ends -->
+        </div>
+    </div>
+</div>
+<!-- Signup Form Ends -->
+
+<!-- Add Footer -->
+{% include "footer.html" %}
+<!-- End Footer -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Hide until SinUp -->
+<script>
+    $(document).ready(function(){
+        $(".nav-item").hide();
+        $("#search_dashboard").html(`
+        <div class="form-inline">
+            <div class="input-group">
+                <input class="form-control form-control-sidebar"
+                    placeholder="SignUp Required">
+            </div>
+        </div>
+        `);
+    });
+</script>
+<!-- Hide until SinUp Ends-->
+
+<!-- Bootstrap Validation -->
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+</script>
+<!-- Bootstrap Validation Ends-->
+
+<!-- Signup Api Js -->
+<script>
+  $(document).ready(function(){
+    $("#submit").click(function(){
+      let email = $("#useremail").val();
+      let pass = $("#userpass").val();
+      let emailtext = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if(email == "" && pass == ""){
+        $(".invalid-feedback").show();
+        return false;
+      }
+      if(!emailtext.test(email)){
+        $(".invalid-feedback").show(); 
+        return false;     
+      }
+      if(pass.length < 6){
+        $(".invalid-feedback").show();
+        return false; 
+      }
+      $.ajax({
+        url:"/Adddata",
+        type:"POST",
+        data:{"email":email,"pass":pass},
+        success:function(res){
+          $(".valid-feedback").show();
+          $(".invalid-feedback").hide();
+          location.href = "/";
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+          $(".invalid-feedback").show();
+        }
+      })
+      
+    });
+  });
+</script>
+<!-- Signup Api Js Ends -->
+
+{% endblock %}

@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Frequent Customer Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Most Frequent Customers</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Most Frequent</li>
+                        <li class="breadcrumb-item active">Customers</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    
+                    
+                    
+                    
+                    
+                    <div class="container">
+                            
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Month</label> 
+                                            
+                                             <select
+                                                class="form-control select2 select2-danger"
+                                                data-dropdown-css-class="select2-danger"
+                                                style="width: 100%;" id="month">
+                                                
+                                                <option>All</option>
+                                                <option>January</option>
+                                                <option>February</option>
+                                                <option>March</option>
+                                                <option>April</option>
+                                                <option>May</option>
+                                                <option>June</option>
+                                                <option>July</option>
+                                                <option>August</option>
+                                                <option>September</option>
+                                                <option>October</option>
+                                                <option>November</option>
+                                                <option>December</option>
+
+                                            </select>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            
+                                            <select
+                                                class="form-control select2 select2-danger"
+                                                data-dropdown-css-class="select2-danger"
+                                                style="width: 100%;" id="year">
+                                                <option>All</option>
+                                                <option>2020</option>
+                                                <option>2021</option>
+                                                <option>2022</option>
+                                                <option>2023</option>
+                                                <option>2024</option>
+                                                <option>2025</option>
+                                                <option>2026</option>
+                                                <option>2027</option>
+                                                <option>2028</option>
+                                                <option>2029</option>
+                                                
+
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div style="width: 100%;">
+                                                <button type="submit" class="btn btn-primary" style="margin-top : 30px" id="Search">Search</button>
+                                            </div>
+                                        </div>	
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    
+                    
+                    <!-- <button class="btn btn-primary mb-3" id="download">Download PDF</button> -->
+                    
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Customer</h3>
+
+                        
+
+
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool"
+                                    data-card-widget="collapse" data-toggle="tooltip"
+                                    title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-body table-responsive mb-5">
+                            <table class="display text-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>Customer Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Executive Name</th>
+                                        <th>Total amount Spent</th>
+                                        <th>No. of times visited</th>
+                                        <th>View Customer Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablerow">
+                                    
+                                </tbody> 
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->   
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6"></div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+<!-- /.content-wrapper -->
+<!-- Frequent Customer Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Ends Footer -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Datatable initialize -->
+<script>
+    $(document).ready(function () {
+        $("#table_id").dataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'copy',
+                    title: 'FrequentCustomer_Details',
+                    filename: 'FrequentCustomer_Report'
+                },
+                {
+                    extend: 'excel',
+                    title: 'FrequentCustomer_Details',
+                    filename: 'FrequentCustomer_Report'
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: 'FrequentCustomer_Details',
+                    filename: 'FrequentCustomer_Report'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'FrequentCustomer_Details',
+                    filename: 'FrequentCustomer_Report'
+                }
+
+            ]
+        });
+    });
+</script>
+<!-- Datatable initialize Ends-->
+
+<script>
+    $(document).ready(function(){
+        $("#Search").click(function(){
+            let month = $("#month").val();
+            let year = $("#year").val();
+            $.ajax({
+                url:"/frequent_customer_data",
+                data:{"month":month,"year":year},
+                type:"POST",
+                success:function(res){
+                    if(res.Res.length > 0){
+                        for(let i=0;i<res.Res.length;i++){
+                            $("#table_id").dataTable().fnAddData([
+                                res.Res[i].Cus_Id,
+                                res.Res[i].Cus_Name,
+                                res.Res[i].Exe_Name,
+                                res.Res[i].Total,
+                                res.Res[i].Visit,
+                                `<div class="btn-group btn-group-sm">
+                                        <a href="/cusdetails" class="btn btn-info viewbtn"><i
+                                            class="fas fa-eye"></i>
+                                        </a>
+                                </div>`
+                            ]);
+                    }
+                    
+                    swal("Success!","Fetch Data Successfully","success");
+                    }else{
+                        swal("Information!","No Data Found With Select Parameter!","info");
+                    }
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","Data is Invalid!!","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                    
+                }
+            })
+        });
+    });
+</script>
+
+{% endblock %}

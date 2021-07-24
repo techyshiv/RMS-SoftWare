@@ -1,0 +1,403 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+<!-- Include Sidebar -->
+{% include "sidebar.html" %}
+<!-- Sidebar Ends -->
+
+<!-- Include Navbar -->
+{% include "navbar.html" %}
+<!-- Navbar Ends -->
+
+<!-- InvoiceView Page Start -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>View Invoice</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">View Invoices</li>
+                    </ol>
+                </div>
+
+
+
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2"></div>
+
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- left column -->
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="radio" checked="checked" name="radiobutton" id="radiobutton1">
+                                <label>Select Duration</label> <select class="form-control select2 select2-danger"
+                                    data-dropdown-css-class="select2-danger" style="width: 100%;" name="duration"
+                                    id="duration">
+                                    <option selected="selected">Today</option>
+                                    <option value="All">All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="radio" name="radiobutton" id="radiobutton2">
+                                <label>From Date:</label> <input type="date" disabled class="form-control"
+                                    style="width: 100%;" name="from" id="from">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>To Date:</label> <input type="date" disabled class="form-control"
+                                    style="width: 100%;" name="to" id="to">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Executive</label>
+                                <select class="form-control select2 select2-danger"
+                                    data-dropdown-css-class="select2-danger" style="width: 100%;" id="executiveid">
+                                    <option>All</option>
+                                    <option disabled>--None--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Customer</label>
+                            <select class="form-control select2 select2-danger"
+                                data-dropdown-css-class="select2-danger" style="width: 100%;" id="customerid">
+                                <option>All</option>
+                                {% for val in data %}
+                                <option>{{val['CustomerName']}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button class="btn btn-primary form-control" type="submit" style="margin-top: 30px"
+                                    id="btnSubmit">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="refresh">
+                            <div class="form-group">
+                                <a href="/ViewInvoice" class="btn btn-primary form-control" style="margin-top: 30px"
+                                >Refresh</a>
+                            </div>
+                        </div>
+                        <div class="col-md-2" id="new_btn">
+                            <div class="form-group">
+                                <button class="btn btn-primary form-control" id="total" style="margin-top: 30px"
+                                >Total Ammount</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="count">
+                    <!-- jquery validation -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">View Invoice</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                    data-toggle="tooltip" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body mb-5">
+                            <table class="display text-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Subtotal</th>
+                                        <th>Tax Amount</th>
+                                        <th>DeliveryCharge</th>
+                                        <th>Grand Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablerow">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="small_loader" id="small_loader1"></div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6"></div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- InvoiceView Page Ends -->
+
+<!-- Include Footer -->
+{% include "footer.html" %}
+<!-- Footer Ends -->
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Datatable initialize -->
+<script>
+    $(document).ready(function () {
+        $("#table_id").dataTable({
+            "lengthMenu": [[5,10,15, -1], [5,10,15, "All"]],
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'copy',
+                    title: 'Invoice_Details',
+                    filename: 'Invoice_Report'
+                },
+                {
+                    extend: 'excel',
+                    title: 'Invoice_Details',
+                    filename: 'Invoice_Report'
+                },
+                {
+                    extend: 'csvHtml5',
+                    title: 'Invoice_Details',
+                    filename: 'Invoice_Report'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'Invoice_Details',
+                    filename: 'Invoice_Report'
+                }
+
+            ]
+        });
+    });
+</script>
+<!-- Datatable initialize Ends-->
+
+<!-- ViewInvoice Api -->
+
+<!-- For RAdiobutton -->
+<script>
+	$(document).ready(function () {
+		$('#radiobutton2').on('change', function () {
+			console.log($("#duration").val());
+			if ($("#duration").val() != "Today") {
+				$("#from").prop('disabled', false);
+				document.getElementById('from').valueAsDate = new Date();
+
+				$("#to").prop('disabled', false);
+				document.getElementById('to').valueAsDate = new Date();
+				$("#duration").prop('disabled', true);
+			}
+		});
+
+		$('#radiobutton1').on('change', function () {
+			$("#duration").prop('disabled', false);
+			$("#duration").val('all');
+			$("#from").prop('disabled', true);
+			$("#from").val('');
+			$("#to").prop('disabled', true);
+			$("#to").val('');
+
+		});
+	});
+</script>
+<!-- Ends -->
+
+<!-- Show Data -->
+<script>
+	$(document).ready(function () {
+        $("#new_btn").hide();
+		$("#btnSubmit").click(function () {
+			var from = $("#from").val();
+			var to = $("#to").val();
+			var duration = $("#duration").val();
+			var executiveid = $("#executiveid").val();
+			var customerid = $("#customerid").val();
+			let date = new Date();
+			let full = date.toLocaleDateString();
+			var details = from + "," + to + "," + customerid + "," + duration + "," + executiveid + "," + full;
+
+			// console.log(from + to + duration + areaid + executiveid + customerid);
+			$.ajax({
+				url: "/Invoice/getdata/?pro=" + details,
+				success: function (data) {
+					let count = 0;
+					if(data.Result.length>0){
+                        // $("#refresh").removeClass("col-md-3");
+                        // $("#refresh").addClass("col-md-2");
+                        $("#new_btn").show();
+						// $("#table_id").DataTable();
+						$("#tablerow").html("");
+						for(let i=0;i<data.Result.length;i++){
+                            if(data.Result[i]["DeliveryCharge"]){
+                                count += parseFloat(data.Result[i]["GrandTotal"]) + parseFloat(data.Result[i]["DeliveryCharge"]);
+                            }else{
+                                count += parseFloat(data.Result[i]["GrandTotal"]);
+                            }
+							
+                            $("#table_id").dataTable().fnAddData([
+                                data.Result[i]["Id"],
+                                data.Result[i]["Name"],
+                                Number.parseFloat(data.Result[i]["SubTotal"]).toFixed(3),
+                                Number.parseFloat(data.Result[i]["TaxAmmount"]).toFixed(3),
+                                data.Result[i]["DeliveryCharge"],
+                                Number.parseFloat(data.Result[i]["GrandTotal"]).toFixed(3)
+                            ]);
+						}
+						$("#count").val(Number.parseFloat(count).toFixed(3));
+                    
+					}
+                    else if(data.Result.length == 0){
+                        swal("Information!","No Data Found","info");
+                    }
+                    else{
+                        swal("Information!","All Payment Status Done Today is Pending\nPlease go to daybook to check the status","info");
+					}
+				}
+			});
+		});
+	});
+</script>
+<!-- Ends -->
+
+<!-- Total Ammount -->
+<script>
+	$(document).ready(function(){
+		$("#total").click(function(){
+			let amm = $("#count").val();
+            swal("Suucess!",`Total Ammount = ${amm}`,"success");
+		})
+	});
+</script>
+<!-- Ends -->
+
+<!-- Ends -->
+
+{% endblock %}

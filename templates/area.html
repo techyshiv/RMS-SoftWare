@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Section Css Start -->
+<style>
+    .sidebar-search-results {
+        position: relative;
+        display: none;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+</style>
+<!-- Section Css Ends -->
+
+{% include "sidebar.html" %}
+{% include "navbar.html" %}
+
+<!-- Area Page Start -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add Area</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">Customer Management/Add Area</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Area <small></small></h3>
+                        </div>
+                        <div>
+                            <div class="">
+                                <span id="mess"></span>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Area</label>
+                                    <input type="text" name="arealabel" id="area" class="form-control"
+                                        id="exampleInputEmail1" placeholder="Enter Area" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Area Pincode</label>
+                                    <input type="Number" name="arealabel" id="pincode" class="form-control"
+                                        placeholder="Enter Area Pincode" autocomplete="off">
+                                </div>
+
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" id="btnsubmit" class="btn btn-primary">Add</button>
+                            </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <div class="card mb-5">
+            <div class="card-header border-transparent">
+                <h3 class="card-title">Area Details</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>Area Pincode</th>
+                                <th>Area Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="row">
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.card-body -->
+
+            <!-- /.card-footer -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- Area Page Ends -->
+
+{% include "footer.html" %}
+
+<!-- Js for content that is coming soon -->
+<script>
+    $(document).ready(function () {
+        $("#sidebar").hide();
+        if ($("#dash_v1").click(function () {
+            swal("Information", "Next Version of Dashboard is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#pick").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+        if ($("#details").click(function () {
+            swal("Information", "Home Delievery Section is Comming Soon!!", "info");
+            return true;
+        }));
+    });
+</script>
+<!-- Js for content that is coming soon Ends -->
+
+<!-- Js for search filter -->
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<!-- Js for search Ends -->
+
+<!-- Js for search internet -->
+<script>
+    setInterval(function () {
+        $(".info").html("")
+        var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-success"></i> Online</a>
+            `);
+        } else {
+            $(".info").append(`
+            <a href="/" class="d-block font-weight-light">Food O Mystery</a>
+            <a href="#" id="status"><i class="fa fa-circle text-danger"></i> Offline</a>
+            `);
+        }
+    }, 1000);
+</script>
+<!-- Js for search internet Ends -->
+
+<!-- Area Page Api -->
+<script>
+    $(document).ready(function(){
+        $("#btnsubmit").click(function(){
+            let areaname = $("#area").val();
+            let areapin = $("#pincode").val();
+            if(areaname == ""){
+                swal("Info","All filelds are Compulsory to filled","info");
+                return false;
+            }
+            if(areapin == ""){
+                swal("Info","All filelds are Compulsory to filled","info");
+                return false; 
+            }
+            if(areapin.toString().length != 6){
+                swal("Info","Pincode must be of 6 Number!!","info");
+                return false; 
+            }
+            $.ajax({
+                url:"/Add_area_data",
+                type:"POST",
+                data:{"area":areaname,"pin":areapin},
+                success:function(res){
+                    $("#row").empty();
+                    for(let i=0;i<res.Data.length;i++){
+                        $("#row").append(`
+                            <tr>
+                                <td>${i+1}</td>
+                                <td>${res.Data[i].AreaName}</td>
+                                <td>${res.Data[i].AreaPin}</td>
+                            </tr>
+                        `)
+                    }
+                    swal("Success","Area Added Successfully!!","success");
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    let err = jqXHR;
+                    if(err.status == 422){
+                        swal("Error","AreaName or Areapin Should be Unique!","error"); 
+                    }
+                    else if(err.status == 500){
+                        swal("Error","Internal Server Error","error");
+                    } 
+                }
+            })
+        });
+    });
+</script>
+<!-- Area Page Api Ends-->
+
+{% endblock %}

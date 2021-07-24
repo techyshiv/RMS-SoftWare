@@ -1,0 +1,334 @@
+{
+    "Admin_Details": {
+        "Email": "admin@gmail.com",
+        "Password": "shivang3898",
+        "Rememberme": "on",
+        "hide": "False"
+    },
+    "Area_Details": [],
+    "Executive_Details": [],
+    "Customer_Details": [],
+    "Product_Details": [
+        {
+            "ProductId": 1,
+            "ProductName": "Plain Cheese Pizza",
+            "ProductCode": "P01",
+            "ProductPrice": "85.72"
+        },
+        {
+            "ProductId": 2,
+            "ProductName": "Veggie Pizza",
+            "ProductCode": "P02",
+            "ProductPrice": "104.77"
+        },
+        {
+            "ProductId": 3,
+            "ProductName": "Fries Pizza",
+            "ProductCode": "P03",
+            "ProductPrice": "114.30"
+        },
+        {
+            "ProductId": 4,
+            "ProductName": "Mushroom Capsicum Pizza",
+            "ProductCode": "P04",
+            "ProductPrice": "119.07"
+        },
+        {
+            "ProductId": 5,
+            "ProductName": "Paneer Corn Pizza",
+            "ProductCode": "P05",
+            "ProductPrice": "128.58"
+        },
+        {
+            "ProductId": 6,
+            "ProductName": "Veg Overloaded Pizza",
+            "ProductCode": "P06",
+            "ProductPrice": "147.63"
+        },
+        {
+            "ProductId": 7,
+            "ProductName": "Paneer Mushroom Makhnee Pizza",
+            "ProductCode": "P07",
+            "ProductPrice": "157.15"
+        },
+        {
+            "ProductId": 8,
+            "ProductName": "F'O'M Cheese Burst Pizza",
+            "ProductCode": "P08",
+            "ProductPrice": "190.49"
+        },
+        {
+            "ProductId": 12,
+            "ProductName": "Gill Veggie Sandwich",
+            "ProductCode": "S01",
+            "ProductPrice": "66.68"
+        },
+        {
+            "ProductId": 13,
+            "ProductName": "Veggie Cheese Sandwich",
+            "ProductCode": "S02",
+            "ProductPrice": "76.20"
+        },
+        {
+            "ProductId": 14,
+            "ProductName": "Paneer Corn Cheese Sandwich",
+            "ProductCode": "S03",
+            "ProductPrice": "85.72"
+        },
+        {
+            "ProductId": 15,
+            "ProductName": "Mushroom Corn Sandwich",
+            "ProductCode": "S04",
+            "ProductPrice": "85.72"
+        },
+        {
+            "ProductId": 16,
+            "ProductName": "F'O'M Overloaded Sandwich",
+            "ProductCode": "S05",
+            "ProductPrice": "114.30"
+        },
+        {
+            "ProductId": 17,
+            "ProductName": "Veg Wrap",
+            "ProductCode": "W01",
+            "ProductPrice": "57.15"
+        },
+        {
+            "ProductId": 18,
+            "ProductName": "Corn Cheese Wrap",
+            "ProductCode": "W02",
+            "ProductPrice": "66.68"
+        },
+        {
+            "ProductId": 19,
+            "ProductName": "Paneer Cheese Wrap",
+            "ProductCode": "W03",
+            "ProductPrice": "76.20"
+        },
+        {
+            "ProductId": 20,
+            "ProductName": "French Fries",
+            "ProductCode": "FF01",
+            "ProductPrice": "38.10"
+        },
+        {
+            "ProductId": 21,
+            "ProductName": "Cheese Fries",
+            "ProductCode": "FF02",
+            "ProductPrice": "47.63"
+        },
+        {
+            "ProductId": 22,
+            "ProductName": "Garlic Bread",
+            "ProductCode": "GB01",
+            "ProductPrice": "38.10"
+        },
+        {
+            "ProductId": 23,
+            "ProductName": "American Corn",
+            "ProductCode": "AC01",
+            "ProductPrice": "38.10"
+        },
+        {
+            "ProductId": 24,
+            "ProductName": "Veg Hot Dog",
+            "ProductCode": "HD01",
+            "ProductPrice": "47.63"
+        },
+        {
+            "ProductId": 26,
+            "ProductName": "Veg Nuggets",
+            "ProductCode": "VN01",
+            "ProductPrice": "52.38"
+        },
+        {
+            "ProductId": 27,
+            "ProductName": "Cheese Pasta",
+            "ProductCode": "CP01",
+            "ProductPrice": "76.20"
+        },
+        {
+            "ProductId": 28,
+            "ProductName": "Cheese Nachos",
+            "ProductCode": "CN01",
+            "ProductPrice": "114.30"
+        },
+        {
+            "ProductId": 29,
+            "ProductName": "Hot Coffee",
+            "ProductCode": "HC01",
+            "ProductPrice": "23.82"
+        },
+        {
+            "ProductId": 30,
+            "ProductName": "Cold Coffee",
+            "ProductCode": "CC01",
+            "ProductPrice": "57.15"
+        },
+        {
+            "ProductId": 31,
+            "ProductName": "Cold Coffee With Ice Cream",
+            "ProductCode": "CC02",
+            "ProductPrice": "71.44"
+        },
+        {
+            "ProductId": 32,
+            "ProductName": "Plain Flavoured Shake",
+            "ProductCode": "SH01",
+            "ProductPrice": "57.15"
+        },
+        {
+            "ProductId": 33,
+            "ProductName": "Shake With Ice Cream",
+            "ProductCode": "SH02",
+            "ProductPrice": "71.44"
+        },
+        {
+            "ProductId": 34,
+            "ProductName": "Oreo Shake",
+            "ProductCode": "SH03",
+            "ProductPrice": "90.48"
+        },
+        {
+            "ProductId": 35,
+            "ProductName": "Kit Kat shake",
+            "ProductCode": "SH04",
+            "ProductPrice": "95.24"
+        },
+        {
+            "ProductId": 36,
+            "ProductName": "Ice Cream Soda",
+            "ProductCode": "IS01",
+            "ProductPrice": "47.63"
+        },
+        {
+            "ProductId": 37,
+            "ProductName": "Cola Float",
+            "ProductCode": "CF01",
+            "ProductPrice": "47.63"
+        },
+        {
+            "ProductId": 38,
+            "ProductName": "Virgin Mojito",
+            "ProductCode": "VM01",
+            "ProductPrice": "47.63"
+        },
+        {
+            "ProductId": 39,
+            "ProductName": "Water Bottle 500 ML",
+            "ProductCode": "WB01",
+            "ProductPrice": "9.53"
+        },
+        {
+            "ProductId": 40,
+            "ProductName": "Water Bottle 1Ltr",
+            "ProductCode": "WB02",
+            "ProductPrice": "19.05"
+        },
+        {
+            "ProductId": 42,
+            "ProductName": "Pepsi 200 Ml",
+            "ProductCode": "1001",
+            "ProductPrice": "19.05"
+        },
+        {
+            "ProductId": 43,
+            "ProductName": "Mountain Dew",
+            "ProductCode": "1002",
+            "ProductPrice": "19.05"
+        },
+        {
+            "ProductId": 45,
+            "ProductName": "Masala Patties",
+            "ProductCode": "PT01",
+            "ProductPrice": "23.82"
+        },
+        {
+            "ProductId": 46,
+            "ProductName": "Paneer Patties",
+            "ProductCode": "PT02",
+            "ProductPrice": "33.34"
+        },
+        {
+            "ProductId": 47,
+            "ProductName": "Chocolate Patties",
+            "ProductCode": "PT03",
+            "ProductPrice": "38.10"
+        },
+        {
+            "ProductId": 48,
+            "ProductName": "Ice Cream Patties",
+            "ProductCode": "PT04",
+            "ProductPrice": "47.63"
+        },
+        {
+            "ProductId": 51,
+            "ProductName": "Pizza Packing Charges",
+            "ProductCode": "1",
+            "ProductPrice": "4.763"
+        },
+        {
+            "ProductId": 49,
+            "ProductName": "Veg Burger",
+            "ProductCode": "B01",
+            "ProductPrice": "57.15"
+        },
+        {
+            "ProductId": 49,
+            "ProductName": "F'O'M King Size:B02",
+            "ProductCode": "B02",
+            "ProductPrice": "76.43"
+        },
+        {
+            "ProductId": 49,
+            "ProductName": "Cheese Slice:B03",
+            "ProductCode": "B03",
+            "ProductPrice": "14.331"
+        },
+        {
+            "ProductId": 49,
+            "ProductName": "Cheesee Samosa:CS01",
+            "ProductCode": "CS01",
+            "ProductPrice": "47.77"
+        },
+        {
+            "ProductId": 50,
+            "ProductName": "Extra Cheese",
+            "ProductCode": "EC",
+            "ProductPrice": "19.05"
+        },
+        {
+            "ProductId": 52,
+            "ProductName": "Veg Fried Momos",
+            "ProductCode": "momo2",
+            "ProductPrice": "52.38"
+        },
+        {
+            "ProductId": 54,
+            "ProductName": "Paneer Fried Momos",
+            "ProductCode": "momo4",
+            "ProductPrice": "61.91"
+        },
+        {
+            "ProductId": 55,
+            "ProductName": "Pastry:Pastry",
+            "ProductCode": "Pastry",
+            "ProductPrice": "33.34"
+        }
+    ],
+    "Payment_Details": [],
+    "Party_Details": [],
+    "Add_Stock_Data": [],
+    "Stock_Details": [],
+    "Expense_Details": [],
+    "Notice_Details": [],
+    "Compose_Details": [],
+    "Register": [],
+    "Profile_Details": [],
+    "Contact_Details": [{
+        "Name":"",
+        "Email":"",
+        "Subject":"",
+        "Message":""
+    }]
+}
